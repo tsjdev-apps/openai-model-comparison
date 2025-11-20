@@ -16,8 +16,9 @@ builder.Services.AddHttpClient<ModelConfigurationService>(client =>
     client.BaseAddress = new Uri(builder.Configuration["BaseUrl"] ?? "http://localhost:5000/");
 });
 
-// Add ModelConfigurationService
+// Add services
 builder.Services.AddScoped<ModelConfigurationService>();
+builder.Services.AddScoped<OpenAIComparisonService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using OpenAIModelComparison.Components.Dialogs;
 using OpenAIModelComparison.Models;
 using OpenAIModelComparison.Services;
 using Radzen;
@@ -13,13 +14,20 @@ public partial class Home : ComponentBase
     [Inject]
     private ModelConfigurationService ModelConfigurationService { get; set; } = default!;
 
+    [Inject]
+    private OpenAIComparisonService OpenAIComparisonService { get; set; } = default!;
+
+    [Inject]
+    private DialogService DialogService { get; set; } = default!;
+
     private string apiKey = string.Empty;
     private string userMessage = string.Empty;
     private bool isProcessing = false;
     private bool isLoadingModels = true;
 
-    private List<OpenAIModel> _availableModels = [];
-    private List<OpenAIModel> SelectedModels => [.. _availableModels.Where(m => m.IsSelected)];
+    private List<OpenAIModel> availableModels = [];
+    private List<OpenAIModel> selectedModels => [.. availableModels.Where(m => m.IsSelected)];
+    private List<ModelComparisonResult> comparisonResults = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,9 +41,9 @@ public partial class Home : ComponentBase
 
         try
         {
-            _availableModels = await ModelConfigurationService.LoadModelsAsync();
+            availableModels = await ModelConfigurationService.LoadModelsAsync();
             
-            if (_availableModels.Count == 0)
+            if (availableModels.Count == 0)
             {
                 NotificationService.Notify(new NotificationMessage
                 {
@@ -77,7 +85,7 @@ public partial class Home : ComponentBase
     private bool CanSendMessage()
     {
         return !string.IsNullOrWhiteSpace(apiKey)
-            && SelectedModels.Count != 0
+            && selectedModels.Count != 0
             && !string.IsNullOrWhiteSpace(userMessage)
             && !isProcessing
             && !isLoadingModels;
@@ -91,20 +99,39 @@ public partial class Home : ComponentBase
         }
 
         isProcessing = true;
+        comparisonResults.Clear();
         StateHasChanged();
 
         try
         {
-            // TODO: Implement OpenAI API calls
-            await Task.Delay(2000); // Placeholder for actual API calls
+            comparisonResults = await OpenAIComparisonService.CompareModelsAsync(
+                apiKey,
+                userMessage,
+                selectedModels);
 
-            NotificationService.Notify(new NotificationMessage
+            var successCount = comparisonResults.Count(r => r.IsSuccess);
+            var failureCount = comparisonResults.Count - successCount;
+
+            if (failureCount > 0)
             {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = $"Messages sent to {SelectedModels.Count} model(s)",
-                Duration = 4000
-            });
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Warning,
+                    Summary = "Partial Success",
+                    Detail = $"{successCount} model(s) succeeded, {failureCount} model(s) failed",
+                    Duration = 5000
+                });
+            }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = $"Responses received from all {successCount} model(s)",
+                    Duration = 4000
+                });
+            }
         }
         catch (Exception ex)
         {
@@ -121,5 +148,23 @@ public partial class Home : ComponentBase
             isProcessing = false;
             StateHasChanged();
         }
+    }
+
+    private async Task ShowResponseDetail(ModelComparisonResult result)
+    {
+        await DialogService.OpenAsync<ResponseDetailDialog>(
+            "Response Details",
+            new Dictionary<string, object> { { "Result", result } },
+            new DialogOptions { Width = "700px", Height = "600px", Resizable = true, Draggable = true });
+    }
+
+    private string GetResponsePreview(string response, int maxLength = 100)
+    {
+        if (string.IsNullOrEmpty(response))
+            return "No response";
+
+        return response.Length <= maxLength 
+            ? response 
+            : response[..maxLength] + "...";
     }
 }

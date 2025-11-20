@@ -29,7 +29,7 @@
                         <RadzenText TextStyle="TextStyle.Body2">Loading models...</RadzenText>
                     </RadzenStack>
                 }
-                else if (!_availableModels.Any())
+                else if (!availableModels.Any())
                 {
                     <RadzenText TextStyle="TextStyle.Body2" Class="rz-p-2">
                         No models available. Please check your configuration.
@@ -38,7 +38,7 @@
                 else
                 {
                     <div class="model-selection-grid">
-                        @foreach (var model in _availableModels)
+                        @foreach (var model in availableModels)
                         {
                             <div class="model-checkbox-item" @onclick="() => ToggleModel(model)">
                                 <RadzenCheckBox @bind-Value="@model.IsSelected" 
@@ -55,13 +55,13 @@
             </RadzenFormField>
 
             <!-- Selected Models Display -->
-            @if (SelectedModels.Any())
+            @if (selectedModels.Any())
             {
                 <RadzenStack Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap" Gap="0.5rem">
                     <RadzenText TextStyle="TextStyle.Subtitle2" Style="width: 100%;">
                         Selected Models:
                     </RadzenText>
-                    @foreach (var model in SelectedModels)
+                    @foreach (var model in selectedModels)
                     {
                         <RadzenBadge BadgeStyle="BadgeStyle.Info" 
                                      Text="@model.DisplayName" 
@@ -89,7 +89,7 @@
         </RadzenStack>
     </RadzenCard>
 
-    <!-- Results Section (Placeholder) -->
+    <!-- Processing Indicator -->
     @if (isProcessing)
     {
         <RadzenCard>
@@ -98,6 +98,80 @@
                 <RadzenText TextStyle="TextStyle.Body1">
                     Processing requests to selected models...
                 </RadzenText>
+            </RadzenStack>
+        </RadzenCard>
+    }
+
+    <!-- Results Section -->
+    @if (comparisonResults.Any() && !isProcessing)
+    {
+        <RadzenCard>
+            <RadzenStack Gap="1.5rem">
+                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3">
+                    Comparison Results
+                </RadzenText>
+
+                <!-- Results Table -->
+                <RadzenDataGrid Data="@comparisonResults" TItem="ModelComparisonResult" 
+                                AllowColumnResize="true" AllowSorting="true">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="ModelDisplayName" Title="Model" Width="200px" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="InputTokens" Title="Input Tokens" Width="120px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="OutputTokens" Title="Output Tokens" Width="120px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="TotalTokens" Title="Total Tokens" Width="120px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="DurationInSeconds" Title="Duration (s)" Width="120px" TextAlign="TextAlign.Right" FormatString="{0:F2}" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Title="Status" Width="100px">
+                            <Template Context="result">
+                                @if (result.IsSuccess)
+                                {
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Success" Text="Success" />
+                                }
+                                else
+                                {
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Danger" Text="Failed" />
+                                }
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+
+                <!-- Response Cards -->
+                <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem;">
+                    Responses
+                </RadzenText>
+
+                <div class="response-cards-grid">
+                    @foreach (var result in comparisonResults.Where(r => r.IsSuccess))
+                    {
+                        <RadzenCard class="response-card" @onclick="@(() => ShowResponseDetail(result))">
+                            <RadzenStack Gap="0.5rem">
+                                <RadzenText TextStyle="TextStyle.Subtitle2">
+                                    @result.ModelDisplayName
+                                </RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2" class="response-preview">
+                                    @GetResponsePreview(result.Response)
+                                </RadzenText>
+                                <RadzenText TextStyle="TextStyle.Caption" Style="color: #666;">
+                                    Click to view full response
+                                </RadzenText>
+                            </RadzenStack>
+                        </RadzenCard>
+                    }
+                </div>
+
+                @if (comparisonResults.Any(r => !r.IsSuccess))
+                {
+                    <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem; color: #d32f2f;">
+                        Errors
+                    </RadzenText>
+
+                    @foreach (var result in comparisonResults.Where(r => !r.IsSuccess))
+                    {
+                        <RadzenAlert AlertStyle="AlertStyle.Danger" Variant="Variant.Flat">
+                            <strong>@result.ModelDisplayName:</strong> @result.ErrorMessage
+                        </RadzenAlert>
+                    }
+                }
             </RadzenStack>
         </RadzenCard>
     }

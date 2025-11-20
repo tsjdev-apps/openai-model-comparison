@@ -1,0 +1,42 @@
+<RadzenStack Gap="1rem">
+    <RadzenText TextStyle="TextStyle.H6">
+        @Result.ModelDisplayName
+    </RadzenText>
+    
+    <RadzenText TextStyle="TextStyle.Subtitle2">
+        Response:
+    </RadzenText>
+    
+    <RadzenCard Style="background-color: #f5f5f5; padding: 1rem; max-height: 400px; overflow-y: auto;">
+        <RadzenText TextStyle="TextStyle.Body1" Style="white-space: pre-wrap;">
+            @Result.Response
+        </RadzenText>
+    </RadzenCard>
+    
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Input Tokens:</strong> @Result.InputTokens
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Output Tokens:</strong> @Result.OutputTokens
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Total Tokens:</strong> @Result.TotalTokens
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Duration:</strong> @Result.DurationInSeconds.ToString("F2") seconds
+            </RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+    
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+        <RadzenButton Text="Close" Click="@(() => DialogService.Close())" Variant="Variant.Flat" />
+    </RadzenStack>
+</RadzenStack>
