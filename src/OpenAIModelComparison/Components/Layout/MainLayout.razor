@@ -1,23 +1,27 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<RadzenLayout>
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="1rem" Class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1" Class="rz-m-0" Style="color: white;">
+                OpenAI Model Comparison
+            </RadzenText>
+            <RadzenButton Icon="info" Variant="Variant.Text" Click="@ShowInfoDialog" Style="color: white;" />
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenBody>
+        <RadzenContentContainer>
             @Body
-        </article>
-    </main>
-</div>
+        </RadzenContentContainer>
+    </RadzenBody>
+    <RadzenFooter>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="2rem" Class="rz-p-3">
+            <RadzenText TextStyle="TextStyle.Body2">
+                © @DateTime.Now.Year <a href="https://www.tsjdev-apps.de" target="_blank" rel="noopener noreferrer">Thomas Sebastian Jensen</a>
+            </RadzenText>
+            <RadzenButton Text="Imprint" Variant="Variant.Text" Size="ButtonSize.Small" Click="@ShowImprintDialog" />
+        </RadzenStack>
+    </RadzenFooter>
+</RadzenLayout>
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+<RadzenComponents />
