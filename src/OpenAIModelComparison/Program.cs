@@ -2,31 +2,26 @@ using OpenAIModelComparison.Components;
 using OpenAIModelComparison.Services;
 using Radzen;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRadzenComponents();
 builder.Services
     .AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Add HttpClient for loading configuration files
-builder.Services.AddHttpClient<ModelConfigurationService>(client =>
+builder.Services.AddHttpClient<IModelConfigurationService, ModelConfigurationService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["BaseUrl"] ?? "http://localhost:5000/");
 });
 
-// Add services
-builder.Services.AddScoped<ModelConfigurationService>();
-builder.Services.AddScoped<OpenAIComparisonService>();
+builder.Services.AddScoped<IModelConfigurationService, ModelConfigurationService>();
+builder.Services.AddScoped<IOpenAIComparisonService, OpenAIComparisonService>();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

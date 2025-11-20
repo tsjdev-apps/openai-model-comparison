@@ -6,16 +6,19 @@ using Radzen;
 
 namespace OpenAIModelComparison.Components.Pages;
 
+/// <summary>
+/// Home page component for the OpenAI Model Comparison application.
+/// </summary>
 public partial class Home : ComponentBase
 {
     [Inject]
     private NotificationService NotificationService { get; set; } = default!;
 
     [Inject]
-    private ModelConfigurationService ModelConfigurationService { get; set; } = default!;
+    private IModelConfigurationService ModelConfigurationService { get; set; } = default!;
 
     [Inject]
-    private OpenAIComparisonService OpenAIComparisonService { get; set; } = default!;
+    private IOpenAIComparisonService OpenAIComparisonService { get; set; } = default!;
 
     [Inject]
     private DialogService DialogService { get; set; } = default!;
@@ -29,11 +32,17 @@ public partial class Home : ComponentBase
     private List<OpenAIModel> selectedModels => [.. availableModels.Where(m => m.IsSelected)];
     private List<ModelComparisonResult> comparisonResults = [];
 
+    /// <summary>
+    /// Initializes the component by loading available models.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         await LoadModelsAsync();
     }
 
+    /// <summary>
+    /// Loads the available OpenAI models from the configuration service.
+    /// </summary>
     private async Task LoadModelsAsync()
     {
         isLoadingModels = true;
@@ -71,17 +80,29 @@ public partial class Home : ComponentBase
         }
     }
 
+    /// <summary>
+    /// Toggles the selection state of a model.
+    /// </summary>
+    /// <param name="model">The model to toggle.</param>
     private void ToggleModel(OpenAIModel model)
     {
         model.IsSelected = !model.IsSelected;
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Handles the model selection change event.
+    /// </summary>
+    /// <param name="_">The model that was changed (unused).</param>
     private void OnModelSelectionChanged(OpenAIModel _)
     {
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Determines whether a message can be sent based on current state.
+    /// </summary>
+    /// <returns>True if a message can be sent, false otherwise.</returns>
     private bool CanSendMessage()
     {
         return !string.IsNullOrWhiteSpace(apiKey)
@@ -91,6 +112,9 @@ public partial class Home : ComponentBase
             && !isLoadingModels;
     }
 
+    /// <summary>
+    /// Sends the user message to all selected models and displays the results.
+    /// </summary>
     private async Task SendMessage()
     {
         if (!CanSendMessage())
@@ -109,8 +133,8 @@ public partial class Home : ComponentBase
                 userMessage,
                 selectedModels);
 
-            var successCount = comparisonResults.Count(r => r.IsSuccess);
-            var failureCount = comparisonResults.Count - successCount;
+            int successCount = comparisonResults.Count(r => r.IsSuccess);
+            int failureCount = comparisonResults.Count - successCount;
 
             if (failureCount > 0)
             {
@@ -150,6 +174,10 @@ public partial class Home : ComponentBase
         }
     }
 
+    /// <summary>
+    /// Opens a dialog to show detailed response information for a specific model result.
+    /// </summary>
+    /// <param name="result">The model comparison result to display.</param>
     private async Task ShowResponseDetail(ModelComparisonResult result)
     {
         await DialogService.OpenAsync<ResponseDetailDialog>(
@@ -158,6 +186,12 @@ public partial class Home : ComponentBase
             new DialogOptions { Width = "700px", Height = "600px", Resizable = true, Draggable = true });
     }
 
+    /// <summary>
+    /// Gets a preview of the response text, truncated to the specified maximum length.
+    /// </summary>
+    /// <param name="response">The full response text.</param>
+    /// <param name="maxLength">The maximum length of the preview.</param>
+    /// <returns>A truncated version of the response or "No response" if empty.</returns>
     private string GetResponsePreview(string response, int maxLength = 100)
     {
         if (string.IsNullOrEmpty(response))

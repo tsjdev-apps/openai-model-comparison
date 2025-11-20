@@ -5,25 +5,34 @@ using System.Diagnostics;
 
 namespace OpenAIModelComparison.Services;
 
-public class OpenAIComparisonService
+/// <summary>
+/// Service for comparing responses from different OpenAI models.
+/// </summary>
+public class OpenAIComparisonService : IOpenAIComparisonService
 {
-    private readonly SemaphoreSlim _throttler = new(1, 1); // Allow only 1 concurrent request
-    private readonly TimeSpan _delayBetweenRequests = TimeSpan.FromSeconds(1); // Delay between requests
+    private readonly SemaphoreSlim _throttler = new(1, 1);
+    private readonly TimeSpan _delayBetweenRequests = TimeSpan.FromSeconds(1);
 
+    /// <summary>
+    /// Compares multiple OpenAI models by sending the same user message to each model and collecting their responses.
+    /// Models are processed sequentially with throttling to respect API rate limits.
+    /// </summary>
+    /// <param name="apiKey">The OpenAI API key for authentication.</param>
+    /// <param name="userMessage">The message to send to each model.</param>
+    /// <param name="selectedModels">The list of models to compare.</param>
+    /// <returns>A list of comparison results, one for each model.</returns>
     public async Task<List<ModelComparisonResult>> CompareModelsAsync(
         string apiKey,
         string userMessage,
         List<OpenAIModel> selectedModels)
     {
-        var results = new List<ModelComparisonResult>();
+        List<ModelComparisonResult> results = new List<ModelComparisonResult>();
 
-        // Process models sequentially with throttling
-        foreach (var model in selectedModels)
+        foreach (OpenAIModel model in selectedModels)
         {
-            var result = await GetModelResponseAsync(apiKey, userMessage, model);
+            ModelComparisonResult result = await GetModelResponseAsync(apiKey, userMessage, model);
             results.Add(result);
             
-            // Add delay between requests (except for the last one)
             if (model != selectedModels[^1])
             {
                 await Task.Delay(_delayBetweenRequests);
@@ -33,39 +42,45 @@ public class OpenAIComparisonService
         return results;
     }
 
+    /// <summary>
+    /// Gets a response from a specific OpenAI model for the given user message.
+    /// </summary>
+    /// <param name="apiKey">The OpenAI API key for authentication.</param>
+    /// <param name="userMessage">The message to send to the model.</param>
+    /// <param name="model">The model to query.</param>
+    /// <returns>A comparison result containing the model's response and metrics.</returns>
     private async Task<ModelComparisonResult> GetModelResponseAsync(
         string apiKey,
         string userMessage,
         OpenAIModel model)
     {
         await _throttler.WaitAsync();
-        var stopwatch = Stopwatch.StartNew();
+        Stopwatch stopwatch = Stopwatch.StartNew();
         
         try
         {
-            var client = new OpenAIClient(apiKey);
-            var chatClient = client.GetChatClient(model.Name);
+            OpenAIClient client = new OpenAIClient(apiKey);     
+            ChatClient chatClient = client.GetChatClient(model.Name);
 
-            var messages = new List<ChatMessage>
+            List<ChatMessage> messages = new List<ChatMessage>
             {
                 new SystemChatMessage("You are a helpful assistant."),
                 new UserChatMessage(userMessage)
             };
 
-            var response = await chatClient.CompleteChatAsync(messages);
+            ChatCompletion response = await chatClient.CompleteChatAsync(messages);
             stopwatch.Stop();
 
-            var completion = response.Value;
-            var content = completion.Content[0].Text;
+            string content = response.Content[0].Text;
 
             return new ModelComparisonResult
             {
                 ModelName = model.Name,
                 ModelDisplayName = model.DisplayName,
                 Response = content,
-                InputTokens = completion.Usage.InputTokenCount,
-                OutputTokens = completion.Usage.OutputTokenCount,
-                TotalTokens = completion.Usage.TotalTokenCount,
+                InputTokens = response.Usage.InputTokenCount,
+                OutputTokens = response.Usage.OutputTokenCount,
+                TotalTokens = response.Usage.TotalTokenCount,
                 DurationInSeconds = stopwatch.Elapsed.TotalSeconds,
                 IsSuccess = true
             };
