@@ -54,22 +54,6 @@
                 }
             </RadzenFormField>
 
-            <!-- Selected Models Display -->
-            @if (SelectedModels.Any())
-            {
-                <RadzenStack Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap" Gap="0.5rem">
-                    <RadzenText TextStyle="TextStyle.Subtitle2" Style="width: 100%;">
-                        Selected Models:
-                    </RadzenText>
-                    @foreach (var model in SelectedModels)
-                    {
-                        <RadzenBadge BadgeStyle="BadgeStyle.Info" 
-                                     Text="@model.DisplayName" 
-                                     IsPill="true" />
-                    }
-                </RadzenStack>
-            }
-
             <!-- Advanced Settings Section -->
             <RadzenCard Style="background-color: #f8f9fa; padding: 1rem;">
                 <RadzenStack Gap="1rem">
