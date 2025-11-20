@@ -1,4 +1,5 @@
 using OpenAIModelComparison.Components;
+using OpenAIModelComparison.Services;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,15 @@ builder.Services.AddRadzenComponents();
 builder.Services
     .AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Add HttpClient for loading configuration files
+builder.Services.AddHttpClient<ModelConfigurationService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["BaseUrl"] ?? "http://localhost:5000/");
+});
+
+// Add ModelConfigurationService
+builder.Services.AddScoped<ModelConfigurationService>();
 
 var app = builder.Build();
 

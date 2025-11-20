@@ -8,12 +8,97 @@
     </RadzenText>
     
     <RadzenText TextStyle="TextStyle.Body1">
-        Here you can compare different OpenAI models.
+        Configure your settings and compare different OpenAI models side by side.
     </RadzenText>
 
     <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Body1">
-            Main functionality will be implemented here.
-        </RadzenText>
+        <RadzenStack Gap="1.5rem">
+            <!-- OpenAI API Key Input -->
+            <RadzenFormField Text="OpenAI API Key" Variant="Variant.Outlined">
+                <RadzenPassword @bind-Value="@apiKey" 
+                                Placeholder="Enter your OpenAI API key..." 
+                                Style="width: 100%;" />
+            </RadzenFormField>
+
+            <!-- Model Selection -->
+            <RadzenFormField Text="Select Models" Variant="Variant.Outlined">
+                @if (isLoadingModels)
+                {
+                    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Class="rz-p-2">
+                        <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Small" />
+                        <RadzenText TextStyle="TextStyle.Body2">Loading models...</RadzenText>
+                    </RadzenStack>
+                }
+                else if (!_availableModels.Any())
+                {
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-p-2">
+                        No models available. Please check your configuration.
+                    </RadzenText>
+                }
+                else
+                {
+                    <div class="model-selection-grid">
+                        @foreach (var model in _availableModels)
+                        {
+                            <div class="model-checkbox-item" @onclick="() => ToggleModel(model)">
+                                <RadzenCheckBox @bind-Value="@model.IsSelected" 
+                                                Name="@model.Name" 
+                                                TValue="bool"
+                                                Change="@(() => OnModelSelectionChanged(model))"
+                                                Id="@model.Name"
+                                                @onclick:stopPropagation="true" />
+                                <span class="model-label">@model.DisplayName</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </RadzenFormField>
+
+            <!-- Selected Models Display -->
+            @if (SelectedModels.Any())
+            {
+                <RadzenStack Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap" Gap="0.5rem">
+                    <RadzenText TextStyle="TextStyle.Subtitle2" Style="width: 100%;">
+                        Selected Models:
+                    </RadzenText>
+                    @foreach (var model in SelectedModels)
+                    {
+                        <RadzenBadge BadgeStyle="BadgeStyle.Info" 
+                                     Text="@model.DisplayName" 
+                                     IsPill="true" />
+                    }
+                </RadzenStack>
+            }
+
+            <!-- Message Input -->
+            <RadzenFormField Text="Your Message" Variant="Variant.Outlined">
+                <RadzenTextArea @bind-Value="@userMessage" 
+                                Placeholder="Enter your message to send to the selected models..." 
+                                Rows="5" 
+                                Style="width: 100%;" />
+            </RadzenFormField>
+
+            <!-- Send Button -->
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Text="Send to Models" 
+                              Icon="send" 
+                              ButtonStyle="ButtonStyle.Primary"
+                              Click="@SendMessage"
+                              Disabled="@(!CanSendMessage())" />
+            </RadzenStack>
+        </RadzenStack>
     </RadzenCard>
+
+    <!-- Results Section (Placeholder) -->
+    @if (isProcessing)
+    {
+        <RadzenCard>
+            <RadzenStack Gap="1rem" AlignItems="AlignItems.Center">
+                <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                <RadzenText TextStyle="TextStyle.Body1">
+                    Processing requests to selected models...
+                </RadzenText>
+            </RadzenStack>
+        </RadzenCard>
+    }
 </RadzenStack>
