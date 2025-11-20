@@ -3,15 +3,19 @@
         @Result.ModelDisplayName
     </RadzenText>
     
-    <RadzenText TextStyle="TextStyle.Subtitle2">
+    <RadzenText TextStyle="TextStyle.Subtitle2" Style="margin-top: 0.5rem;">
         Response:
     </RadzenText>
     
-    <RadzenCard Style="background-color: #f5f5f5; padding: 1rem; max-height: 400px; overflow-y: auto;">
-        <RadzenText TextStyle="TextStyle.Body1" Style="white-space: pre-wrap;">
+    <RadzenCard Style="background-color: #f5f5f5; padding: 1rem;">
+        <RadzenText TextStyle="TextStyle.Body1" Style="white-space: pre-wrap; word-wrap: break-word;">
             @Result.Response
         </RadzenText>
     </RadzenCard>
+    
+    <RadzenText TextStyle="TextStyle.Subtitle2" Style="margin-top: 1rem;">
+        Metrics:
+    </RadzenText>
     
     <RadzenRow Gap="1rem">
         <RadzenColumn Size="12" SizeMD="6">
@@ -36,7 +40,7 @@
         </RadzenColumn>
     </RadzenRow>
     
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" Style="margin-top: 1rem;">
         <RadzenButton Text="Close" Click="@(() => DialogService.Close())" Variant="Variant.Flat" />
     </RadzenStack>
 </RadzenStack>

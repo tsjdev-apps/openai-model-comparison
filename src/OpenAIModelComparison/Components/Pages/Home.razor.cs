@@ -183,7 +183,13 @@ public partial class Home : ComponentBase
         await DialogService.OpenAsync<ResponseDetailDialog>(
             "Response Details",
             new Dictionary<string, object> { { "Result", result } },
-            new DialogOptions { Width = "700px", Height = "600px", Resizable = true, Draggable = true });
+            new DialogOptions 
+            { 
+                Width = "700px", 
+                Resizable = true, 
+                Draggable = true,
+                AutoFocusFirstElement = false
+            });
     }
 
     /// <summary>
