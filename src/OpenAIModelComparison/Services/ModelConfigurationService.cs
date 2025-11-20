@@ -7,21 +7,15 @@ namespace OpenAIModelComparison.Services;
 /// <summary>
 /// Service for loading and managing OpenAI model configurations.
 /// </summary>
-public class ModelConfigurationService : IModelConfigurationService
+/// <remarks>
+/// Initializes a new instance of the <see cref="ModelConfigurationService"/> class.
+/// </remarks>
+/// <param name="httpClient">The HTTP client for making requests.</param>
+/// <param name="navigationManager">The navigation manager for resolving URIs.</param>
+public class ModelConfigurationService(
+    HttpClient httpClient, 
+    NavigationManager navigationManager) : IModelConfigurationService
 {
-    private readonly HttpClient _httpClient;
-    private readonly NavigationManager _navigationManager;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ModelConfigurationService"/> class.
-    /// </summary>
-    /// <param name="httpClient">The HTTP client for making requests.</param>
-    /// <param name="navigationManager">The navigation manager for resolving URIs.</param>
-    public ModelConfigurationService(HttpClient httpClient, NavigationManager navigationManager)
-    {
-        _httpClient = httpClient;
-        _navigationManager = navigationManager;
-    }
 
     /// <summary>
     /// Loads the available OpenAI models from the configuration file.
@@ -31,16 +25,16 @@ public class ModelConfigurationService : IModelConfigurationService
     {
         try
         {
-            string baseUri = _navigationManager.BaseUri;
-            Uri modelsUri = new Uri(new Uri(baseUri), "data/models.json");
+            string baseUri = navigationManager.BaseUri;
+            Uri modelsUri = new(new Uri(baseUri), "data/models.json");
 
-            List<OpenAIModel>? models = await _httpClient.GetFromJsonAsync<List<OpenAIModel>>(modelsUri.ToString());
-            return models ?? new List<OpenAIModel>();
+            List<OpenAIModel>? models = await httpClient.GetFromJsonAsync<List<OpenAIModel>>(modelsUri.ToString());
+            return models ?? [];
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading models: {ex.Message}");
-            return new List<OpenAIModel>();
+            return [];
         }
     }
 }

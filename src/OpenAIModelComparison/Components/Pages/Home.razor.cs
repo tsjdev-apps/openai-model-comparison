@@ -29,7 +29,7 @@ public partial class Home : ComponentBase
     private bool isLoadingModels = true;
 
     private List<OpenAIModel> availableModels = [];
-    private List<OpenAIModel> selectedModels => [.. availableModels.Where(m => m.IsSelected)];
+    private List<OpenAIModel> SelectedModels => [.. availableModels.Where(m => m.IsSelected)];
     private List<ModelComparisonResult> comparisonResults = [];
 
     /// <summary>
@@ -106,7 +106,7 @@ public partial class Home : ComponentBase
     private bool CanSendMessage()
     {
         return !string.IsNullOrWhiteSpace(apiKey)
-            && selectedModels.Count != 0
+            && SelectedModels.Count != 0
             && !string.IsNullOrWhiteSpace(userMessage)
             && !isProcessing
             && !isLoadingModels;
@@ -131,7 +131,7 @@ public partial class Home : ComponentBase
             comparisonResults = await OpenAIComparisonService.CompareModelsAsync(
                 apiKey,
                 userMessage,
-                selectedModels);
+                SelectedModels);
 
             int successCount = comparisonResults.Count(r => r.IsSuccess);
             int failureCount = comparisonResults.Count - successCount;
@@ -192,7 +192,7 @@ public partial class Home : ComponentBase
     /// <param name="response">The full response text.</param>
     /// <param name="maxLength">The maximum length of the preview.</param>
     /// <returns>A truncated version of the response or "No response" if empty.</returns>
-    private string GetResponsePreview(string response, int maxLength = 100)
+    private static string GetResponsePreview(string response, int maxLength = 100)
     {
         if (string.IsNullOrEmpty(response))
             return "No response";

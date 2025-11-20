@@ -26,7 +26,7 @@ public class OpenAIComparisonService : IOpenAIComparisonService
         string userMessage,
         List<OpenAIModel> selectedModels)
     {
-        List<ModelComparisonResult> results = new List<ModelComparisonResult>();
+        List<ModelComparisonResult> results = [];
 
         foreach (OpenAIModel model in selectedModels)
         {
@@ -59,14 +59,14 @@ public class OpenAIComparisonService : IOpenAIComparisonService
         
         try
         {
-            OpenAIClient client = new OpenAIClient(apiKey);     
+            OpenAIClient client = new(apiKey);
             ChatClient chatClient = client.GetChatClient(model.Name);
 
-            List<ChatMessage> messages = new List<ChatMessage>
-            {
+            List<ChatMessage> messages =
+            [
                 new SystemChatMessage("You are a helpful assistant."),
                 new UserChatMessage(userMessage)
-            };
+            ];
 
             ChatCompletion response = await chatClient.CompleteChatAsync(messages);
             stopwatch.Stop();

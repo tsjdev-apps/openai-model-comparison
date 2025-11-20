@@ -55,13 +55,13 @@
             </RadzenFormField>
 
             <!-- Selected Models Display -->
-            @if (selectedModels.Any())
+            @if (SelectedModels.Any())
             {
                 <RadzenStack Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap" Gap="0.5rem">
                     <RadzenText TextStyle="TextStyle.Subtitle2" Style="width: 100%;">
                         Selected Models:
                     </RadzenText>
-                    @foreach (var model in selectedModels)
+                    @foreach (var model in SelectedModels)
                     {
                         <RadzenBadge BadgeStyle="BadgeStyle.Info" 
                                      Text="@model.DisplayName" 
