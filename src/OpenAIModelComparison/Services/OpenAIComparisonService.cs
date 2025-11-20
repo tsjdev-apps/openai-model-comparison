@@ -20,17 +20,19 @@ public class OpenAIComparisonService : IOpenAIComparisonService
     /// <param name="apiKey">The OpenAI API key for authentication.</param>
     /// <param name="userMessage">The message to send to each model.</param>
     /// <param name="selectedModels">The list of models to compare.</param>
+    /// <param name="settings">Optional chat settings to customize the API request.</param>
     /// <returns>A list of comparison results, one for each model.</returns>
     public async Task<List<ModelComparisonResult>> CompareModelsAsync(
         string apiKey,
         string userMessage,
-        List<OpenAIModel> selectedModels)
+        List<OpenAIModel> selectedModels,
+        ChatSettings? settings = null)
     {
         List<ModelComparisonResult> results = [];
 
         foreach (OpenAIModel model in selectedModels)
         {
-            ModelComparisonResult result = await GetModelResponseAsync(apiKey, userMessage, model);
+            ModelComparisonResult result = await GetModelResponseAsync(apiKey, userMessage, model, settings);
             results.Add(result);
             
             if (model != selectedModels[^1])
@@ -48,11 +50,13 @@ public class OpenAIComparisonService : IOpenAIComparisonService
     /// <param name="apiKey">The OpenAI API key for authentication.</param>
     /// <param name="userMessage">The message to send to the model.</param>
     /// <param name="model">The model to query.</param>
+    /// <param name="settings">Optional chat settings to customize the API request.</param>
     /// <returns>A comparison result containing the model's response and metrics.</returns>
     private async Task<ModelComparisonResult> GetModelResponseAsync(
         string apiKey,
         string userMessage,
-        OpenAIModel model)
+        OpenAIModel model,
+        ChatSettings? settings)
     {
         await _throttler.WaitAsync();
         Stopwatch stopwatch = Stopwatch.StartNew();
@@ -68,7 +72,15 @@ public class OpenAIComparisonService : IOpenAIComparisonService
                 new UserChatMessage(userMessage)
             ];
 
-            ChatCompletion response = await chatClient.CompleteChatAsync(messages);
+            OpenAI.Chat.ChatCompletionOptions chatOptions = new()
+            {
+                MaxOutputTokenCount = settings?.MaxTokens,
+                Temperature = settings?.Temperature,
+                TopP = settings?.TopP,
+                FrequencyPenalty = settings?.FrequencyPenalty
+            };
+
+            ChatCompletion response = await chatClient.CompleteChatAsync(messages, chatOptions);
             stopwatch.Stop();
 
             string content = response.Content[0].Text;

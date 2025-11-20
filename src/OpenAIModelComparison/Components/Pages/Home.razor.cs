@@ -27,10 +27,16 @@ public partial class Home : ComponentBase
     private string userMessage = string.Empty;
     private bool isProcessing = false;
     private bool isLoadingModels = true;
+    private bool showAdvancedSettings = false;
 
     private List<OpenAIModel> availableModels = [];
     private List<OpenAIModel> SelectedModels => [.. availableModels.Where(m => m.IsSelected)];
     private List<ModelComparisonResult> comparisonResults = [];
+
+    private int? maxTokens = null;
+    private float? temperature = 1.0f;
+    private float? topP = null;
+    private float? frequencyPenalty = null;
 
     /// <summary>
     /// Initializes the component by loading available models.
@@ -100,6 +106,26 @@ public partial class Home : ComponentBase
     }
 
     /// <summary>
+    /// Toggles the visibility of advanced settings.
+    /// </summary>
+    private void ToggleAdvancedSettings()
+    {
+        showAdvancedSettings = !showAdvancedSettings;
+    }
+
+    /// <summary>
+    /// Resets all advanced settings to their default values.
+    /// </summary>
+    private void ResetAdvancedSettings()
+    {
+        maxTokens = null;
+        temperature = 1.0f;
+        topP = null;
+        frequencyPenalty = null;
+        StateHasChanged();
+    }
+
+    /// <summary>
     /// Determines whether a message can be sent based on current state.
     /// </summary>
     /// <returns>True if a message can be sent, false otherwise.</returns>
@@ -128,10 +154,19 @@ public partial class Home : ComponentBase
 
         try
         {
+            ChatSettings settings = new()
+            {
+                MaxTokens = maxTokens,
+                Temperature = temperature,
+                TopP = topP,
+                FrequencyPenalty = frequencyPenalty
+            };
+
             comparisonResults = await OpenAIComparisonService.CompareModelsAsync(
                 apiKey,
                 userMessage,
-                SelectedModels);
+                SelectedModels,
+                settings);
 
             int successCount = comparisonResults.Count(r => r.IsSuccess);
             int failureCount = comparisonResults.Count - successCount;
