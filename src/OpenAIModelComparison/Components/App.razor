@@ -1,23 +1,45 @@
-﻿<!DOCTYPE html>
+﻿@*
+    Root component of the application.
+    Defines the HTML structure, metadata, stylesheets, and scripts.
+*@
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+    
+    <!-- Preload resources for performance optimization -->
     <ResourcePreloader />
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["OpenAIModelComparison.styles.css"]" />
+    
+    <!-- Import map for module resolution -->
     <ImportMap />
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
+    
+    <!-- Dynamic head content outlet -->
     <HeadOutlet @rendermode="InteractiveServer" />
+    
+    <!-- Radzen Material theme -->
     <RadzenTheme Theme="material" />
 </head>
 
 <body>
+    <!-- Application routes with interactive server rendering -->
     <Routes @rendermode="InteractiveServer" />
+    
+    <!-- Reconnection modal for connection loss scenarios -->
     <ReconnectModal />
+    
+    <!-- Blazor and Radzen JavaScript files -->
     <script src="@Assets["_framework/blazor.web.js"]"></script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
 </body>

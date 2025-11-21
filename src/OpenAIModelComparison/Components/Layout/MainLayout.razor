@@ -1,6 +1,12 @@
-﻿@inherits LayoutComponentBase
+﻿@*
+    Main layout component that defines the overall structure of the application.
+    Includes header with app title and info button, body for page content, and footer with copyright and imprint link.
+*@
+
+@inherits LayoutComponentBase
 
 <RadzenLayout>
+    <!-- Header with application title and info button -->
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="1rem" Class="rz-p-4">
             <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1" Class="rz-m-0" Style="color: white;">
@@ -9,11 +15,15 @@
             <RadzenButton Icon="info" Variant="Variant.Text" Click="@ShowInfoDialog" Style="color: white;" />
         </RadzenStack>
     </RadzenHeader>
+    
+    <!-- Main content area -->
     <RadzenBody>
         <RadzenContentContainer>
             @Body
         </RadzenContentContainer>
     </RadzenBody>
+    
+    <!-- Footer with copyright and imprint link -->
     <RadzenFooter>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="2rem" Class="rz-p-3">
             <RadzenText TextStyle="TextStyle.Body2">

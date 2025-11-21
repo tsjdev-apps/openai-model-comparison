@@ -1,8 +1,14 @@
+@*
+    Dialog component displaying legal imprint and liability information.
+    Contains legally required information according to German law (TMG and RStV).
+*@
+
 <RadzenStack Gap="1.5rem" Style="max-width: 700px;">
     <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3">
         Imprint
     </RadzenText>
     
+    <!-- Information according to § 5 TMG -->
     <RadzenStack Gap="1rem">
         <RadzenText TextStyle="TextStyle.Subtitle1">
             Information pursuant to § 5 TMG
@@ -14,6 +20,7 @@
         </RadzenText>
     </RadzenStack>
     
+    <!-- Contact information -->
     <RadzenStack Gap="1rem">
         <RadzenText TextStyle="TextStyle.Subtitle1">
             Contact
@@ -23,6 +30,7 @@
         </RadzenText>
     </RadzenStack>
     
+    <!-- Responsible person according to § 55 para. 2 RStV -->
     <RadzenStack Gap="1rem">
         <RadzenText TextStyle="TextStyle.Subtitle1">
             Responsible for content according to § 55 para. 2 RStV
@@ -34,6 +42,7 @@
         </RadzenText>
     </RadzenStack>
     
+    <!-- Liability for content section -->
     <RadzenStack Gap="1rem">
         <RadzenText TextStyle="TextStyle.Subtitle1">
             Liability for Content
@@ -48,6 +57,7 @@
         </RadzenText>
     </RadzenStack>
     
+    <!-- Liability for links section -->
     <RadzenStack Gap="1rem">
         <RadzenText TextStyle="TextStyle.Subtitle1">
             Liability for Links
@@ -63,6 +73,7 @@
         </RadzenText>
     </RadzenStack>
     
+    <!-- Copyright section -->
     <RadzenStack Gap="1rem">
         <RadzenText TextStyle="TextStyle.Subtitle1">
             Copyright
@@ -78,10 +89,12 @@
         </RadzenText>
     </RadzenStack>
     
+    <!-- Source attribution -->
     <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; margin-top: 1rem;">
         Source: <a href="https://www.e-recht24.de/" target="_blank">eRecht24</a>
     </RadzenText>
     
+    <!-- Close button -->
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" Style="margin-top: 1rem;">
         <RadzenButton Text="Close" Click="@(() => DialogService.Close())" Variant="Variant.Flat" />
     </RadzenStack>

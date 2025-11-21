@@ -1,4 +1,9 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
+﻿@*
+    Router component for handling application navigation and routing.
+    Configures the default layout and provides a custom 404 page.
+*@
+
+<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />

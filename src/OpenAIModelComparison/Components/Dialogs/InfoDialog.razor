@@ -1,8 +1,14 @@
+@*
+    Dialog component displaying information about the OpenAI Model Comparison application.
+    Shows key features, technology stack, and important notes about API key usage.
+*@
+
 <RadzenStack Gap="1.5rem" Style="max-width: 600px;">
     <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3">
         About OpenAI Model Comparison
     </RadzenText>
     
+    <!-- Application description -->
     <RadzenText TextStyle="TextStyle.Body1">
         This application enables you to compare different OpenAI models side by side with the same prompt. 
         It helps you understand the differences in responses, performance, and cost across various models.
@@ -12,6 +18,7 @@
         Key Features
     </RadzenText>
     
+    <!-- List of key features with checkmark icons -->
     <RadzenStack Gap="0.5rem">
         <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
             <RadzenIcon Icon="check_circle" Style="color: #4caf50; flex-shrink: 0; font-size: 20px; margin-top: 2px;" />
@@ -53,6 +60,7 @@
         Technology Stack
     </RadzenText>
     
+    <!-- List of technologies used -->
     <RadzenStack Gap="0.5rem">
         <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
             <RadzenIcon Icon="web" Style="color: #5e72e4; flex-shrink: 0; font-size: 20px; margin-top: 2px;" />
@@ -76,6 +84,7 @@
         </RadzenStack>
     </RadzenStack>
     
+    <!-- Important note about API key security (non-closable alert) -->
     <RadzenAlert AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" AllowClose="false" Style="margin-top: 1rem;">
         <RadzenText TextStyle="TextStyle.Body2">
             <strong>Note:</strong> You need a valid OpenAI API key to use this application. 
@@ -83,6 +92,7 @@
         </RadzenText>
     </RadzenAlert>
     
+    <!-- Close button -->
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" Style="margin-top: 1rem;">
         <RadzenButton Text="Close" Click="@(() => DialogService.Close())" Variant="Variant.Flat" />
     </RadzenStack>

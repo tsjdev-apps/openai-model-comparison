@@ -1,7 +1,13 @@
+@*
+    Component for displaying and managing OpenAI model selection.
+    Shows a grid of checkboxes for available models with loading and empty states.
+*@
+
 @using OpenAIModelComparison.Models
 
 @if (IsLoading)
 {
+    <!-- Loading state with progress indicator -->
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Class="rz-p-2">
         <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Small" />
         <RadzenText TextStyle="TextStyle.Body2">Loading models...</RadzenText>
@@ -9,12 +15,14 @@
 }
 else if (!Models.Any())
 {
+    <!-- Empty state when no models are available -->
     <RadzenText TextStyle="TextStyle.Body2" Class="rz-p-2">
         No models available. Please check your configuration.
     </RadzenText>
 }
 else
 {
+    <!-- Model selection grid with checkboxes -->
     <div class="model-selection-grid">
         @foreach (var model in Models)
         {

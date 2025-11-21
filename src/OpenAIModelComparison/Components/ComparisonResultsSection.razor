@@ -1,3 +1,9 @@
+@*
+    Component for displaying model comparison results.
+    Shows results in two formats: a detailed data grid with metrics, and clickable response cards.
+    Also displays any errors that occurred during processing.
+*@
+
 @using OpenAIModelComparison.Models
 
 <RadzenStack Gap="1.5rem">
@@ -5,7 +11,7 @@
         Comparison Results
     </RadzenText>
 
-    <!-- Results Table -->
+    <!-- Results Table - Displays metrics for all models -->
     <RadzenDataGrid Data="@Results" TItem="ModelComparisonResult" 
                     AllowColumnResize="true" AllowSorting="true">
         <Columns>
@@ -30,7 +36,7 @@
         </Columns>
     </RadzenDataGrid>
 
-    <!-- Response Cards -->
+    <!-- Response Cards - Shows preview of successful responses -->
     <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem;">
         Responses
     </RadzenText>
@@ -38,6 +44,7 @@
     <div class="response-cards-grid">
         @foreach (var result in Results.Where(r => r.IsSuccess))
         {
+            <!-- Clickable card to view full response in dialog -->
             <RadzenCard class="response-card" @onclick="@(() => OnResultSelected.InvokeAsync(result))">
                 <RadzenStack Gap="0.5rem">
                     <RadzenText TextStyle="TextStyle.Subtitle2">
@@ -54,6 +61,7 @@
         }
     </div>
 
+    <!-- Error Section - Displays any failed model requests -->
     @if (Results.Any(r => !r.IsSuccess))
     {
         <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem; color: #d32f2f;">

@@ -1,7 +1,14 @@
+@*
+    Component for managing advanced chat completion settings.
+    Provides collapsible section with controls for max tokens, temperature, top-p, and frequency penalty.
+    The entire header is clickable to expand/collapse the section.
+*@
+
 @using OpenAIModelComparison.Models
 
 <RadzenCard Style="background-color: #f8f9fa; padding: 1rem;">
     <RadzenStack Gap="1rem">
+        <!-- Clickable header to toggle expand/collapse -->
         <RadzenStack Orientation="Orientation.Horizontal" 
                      JustifyContent="JustifyContent.SpaceBetween" 
                      AlignItems="AlignItems.Center"
@@ -13,6 +20,7 @@
             <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
                 @if (IsExpanded)
                 {
+                    <!-- Reset button to restore default values -->
                     <RadzenButton Text="Reset" 
                                 Icon="refresh" 
                                 ButtonStyle="ButtonStyle.Light"
@@ -21,6 +29,7 @@
                                 Disabled="@IsDisabled"
                                 @onclick:stopPropagation="true" />
                 }
+                <!-- Toggle button to show/hide settings -->
                 <RadzenButton Text="@(IsExpanded ? "Hide" : "Show")" 
                             Icon="@(IsExpanded ? "expand_less" : "expand_more")" 
                             ButtonStyle="ButtonStyle.Light"
@@ -33,7 +42,9 @@
 
         @if (IsExpanded)
         {
+            <!-- Advanced settings input fields -->
             <RadzenRow Gap="1rem">
+                <!-- Max Tokens Setting -->
                 <RadzenColumn Size="12" SizeMD="6">
                     <RadzenFormField Text="Max Tokens" Variant="Variant.Outlined" Style="width: 100%;">
                         <ChildContent>
@@ -54,6 +65,7 @@
                     </RadzenFormField>
                 </RadzenColumn>
 
+                <!-- Temperature Setting -->
                 <RadzenColumn Size="12" SizeMD="6">
                     <RadzenFormField Text="Temperature" Variant="Variant.Outlined" Style="width: 100%;">
                         <ChildContent>
@@ -74,6 +86,7 @@
                     </RadzenFormField>
                 </RadzenColumn>
 
+                <!-- Top P Setting -->
                 <RadzenColumn Size="12" SizeMD="6">
                     <RadzenFormField Text="Top P" Variant="Variant.Outlined" Style="width: 100%;">
                         <ChildContent>
@@ -95,6 +108,7 @@
                     </RadzenFormField>
                 </RadzenColumn>
 
+                <!-- Frequency Penalty Setting -->
                 <RadzenColumn Size="12" SizeMD="6">
                     <RadzenFormField Text="Frequency Penalty" Variant="Variant.Outlined" Style="width: 100%;">
                         <ChildContent>
