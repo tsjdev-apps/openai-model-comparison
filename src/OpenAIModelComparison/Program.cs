@@ -19,9 +19,16 @@ builder.Services.AddHttpClient<IModelConfigurationService, ModelConfigurationSer
     client.BaseAddress = new Uri(builder.Configuration["BaseUrl"] ?? "http://localhost:5000/");
 });
 
+// Register HttpClient for SamplePromptService with base URL from configuration
+builder.Services.AddHttpClient<ISamplePromptService, SamplePromptService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["BaseUrl"] ?? "http://localhost:5000/");
+});
+
 // Register application services
 builder.Services.AddScoped<IModelConfigurationService, ModelConfigurationService>();
 builder.Services.AddScoped<IOpenAIComparisonService, OpenAIComparisonService>();
+builder.Services.AddScoped<ISamplePromptService, SamplePromptService>();
 
 WebApplication app = builder.Build();
 

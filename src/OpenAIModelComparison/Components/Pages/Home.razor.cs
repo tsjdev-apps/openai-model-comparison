@@ -23,6 +23,9 @@ public partial class Home : ComponentBase
     [Inject]
     private DialogService DialogService { get; set; } = default!;
 
+    [Inject]
+    private ISamplePromptService SamplePromptService { get; set; } = default!;
+
     private string apiKey = string.Empty;
     private string userMessage = string.Empty;
     private bool isProcessing = false;
@@ -34,52 +37,7 @@ public partial class Home : ComponentBase
     private List<OpenAIModel> availableModels = [];
     private List<OpenAIModel> SelectedModels => [.. availableModels.Where(m => m.IsSelected)];
     private List<ModelComparisonResult> comparisonResults = [];
-
-    private readonly List<SamplePrompt> samplePrompts =
-    [
-        new SamplePrompt
-        {
-            Title = "Creative Writing",
-            Description = "Test creative and narrative abilities",
-            Icon = "auto_stories",
-            Prompt = "Write a short story (100 words) about a time traveler who accidentally changes a small detail in the past, only to discover it has massive consequences in the present."
-        },
-        new SamplePrompt
-        {
-            Title = "Code Generation",
-            Description = "Test programming and technical skills",
-            Icon = "code",
-            Prompt = "Write a C# function that finds the longest palindromic substring in a given string. Include error handling and XML documentation comments."
-        },
-        new SamplePrompt
-        {
-            Title = "Problem Solving",
-            Description = "Test logical reasoning and analysis",
-            Icon = "psychology",
-            Prompt = "You have 8 balls. One of them is slightly heavier than the others. Using a balance scale only twice, how can you identify the heavier ball? Explain your reasoning step by step."
-        },
-        new SamplePrompt
-        {
-            Title = "Data Analysis",
-            Description = "Test analytical and summarization skills",
-            Icon = "analytics",
-            Prompt = "Analyze the following scenario: A company's website traffic increased by 300% in Q1, but sales only increased by 15%. What could be the potential reasons for this discrepancy? Provide 5 possible explanations with brief reasoning."
-        },
-        new SamplePrompt
-        {
-            Title = "Translation & Culture",
-            Description = "Test language and cultural understanding",
-            Icon = "translate",
-            Prompt = "Translate the English idiom 'It's raining cats and dogs' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists."
-        },
-        new SamplePrompt
-        {
-            Title = "Math & Logic",
-            Description = "Test mathematical reasoning and explanation",
-            Icon = "calculate",
-            Prompt = "Explain the Monty Hall problem: You're on a game show with 3 doors. Behind one is a car, behind the others are goats. You pick door 1. The host, who knows what's behind each door, opens door 3 revealing a goat. Should you switch to door 2? Explain with probability calculations."
-        }
-    ];
+    private List<SamplePrompt> samplePrompts = [];
 
     private int? maxTokens = null;
     private float? temperature = 1.0f;
@@ -87,11 +45,14 @@ public partial class Home : ComponentBase
     private float? frequencyPenalty = null;
 
     /// <summary>
-    /// Initializes the component by loading available models.
+    /// Initializes the component by loading available models and sample prompts.
     /// </summary>
     protected override async Task OnInitializedAsync()
     {
-        await LoadModelsAsync();
+        await Task.WhenAll(
+            LoadModelsAsync(),
+            LoadSamplePromptsAsync()
+        );
     }
 
     /// <summary>
@@ -131,6 +92,38 @@ public partial class Home : ComponentBase
         {
             isLoadingModels = false;
             StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Loads the sample prompts from the configuration service.
+    /// </summary>
+    private async Task LoadSamplePromptsAsync()
+    {
+        try
+        {
+            samplePrompts = await SamplePromptService.LoadSamplePromptsAsync();
+            
+            if (samplePrompts.Count == 0)
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Warning,
+                    Summary = "Warning",
+                    Detail = "No sample prompts could be loaded from configuration",
+                    Duration = 4000
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = $"Failed to load sample prompts: {ex.Message}",
+                Duration = 4000
+            });
         }
     }
 
