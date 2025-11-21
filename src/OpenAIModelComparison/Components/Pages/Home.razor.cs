@@ -28,6 +28,8 @@ public partial class Home : ComponentBase
     private bool isProcessing = false;
     private bool isLoadingModels = true;
     private bool showAdvancedSettings = false;
+    private int currentModelIndex = 0;
+    private int totalModels = 0;
 
     private List<OpenAIModel> availableModels = [];
     private List<OpenAIModel> SelectedModels => [.. availableModels.Where(m => m.IsSelected)];
@@ -169,6 +171,8 @@ public partial class Home : ComponentBase
 
         isProcessing = true;
         comparisonResults.Clear();
+        currentModelIndex = 0;
+        totalModels = SelectedModels.Count;
         StateHasChanged();
 
         try
@@ -181,11 +185,28 @@ public partial class Home : ComponentBase
                 FrequencyPenalty = frequencyPenalty
             };
 
-            comparisonResults = await OpenAIComparisonService.CompareModelsAsync(
-                apiKey,
-                userMessage,
-                SelectedModels,
-                settings);
+            List<ModelComparisonResult> results = [];
+            
+            foreach (OpenAIModel model in SelectedModels)
+            {
+                currentModelIndex++;
+                StateHasChanged();
+                
+                ModelComparisonResult result = await OpenAIComparisonService.CompareModelAsync(
+                    apiKey,
+                    userMessage,
+                    model,
+                    settings);
+                    
+                results.Add(result);
+                
+                if (currentModelIndex < totalModels)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+            }
+            
+            comparisonResults = results;
 
             int successCount = comparisonResults.Count(r => r.IsSuccess);
             int failureCount = comparisonResults.Count - successCount;
@@ -224,6 +245,8 @@ public partial class Home : ComponentBase
         finally
         {
             isProcessing = false;
+            currentModelIndex = 0;
+            totalModels = 0;
             StateHasChanged();
         }
     }

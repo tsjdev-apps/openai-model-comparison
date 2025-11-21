@@ -198,8 +198,14 @@
             <RadzenStack Gap="1rem" AlignItems="AlignItems.Center">
                 <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
                 <RadzenText TextStyle="TextStyle.Body1">
-                    Processing requests to selected models...
+                    Processing model @currentModelIndex of @totalModels...
                 </RadzenText>
+                @if (totalModels > 0)
+                {
+                    <RadzenProgressBar Value="@((double)currentModelIndex / totalModels * 100)" 
+                                       ShowValue="true" 
+                                       Style="width: 300px;" />
+                }
             </RadzenStack>
         </RadzenCard>
     }

@@ -45,6 +45,23 @@ public class OpenAIComparisonService : IOpenAIComparisonService
     }
 
     /// <summary>
+    /// Compares a single OpenAI model by sending a user message and collecting the response.
+    /// </summary>
+    /// <param name="apiKey">The OpenAI API key for authentication.</param>
+    /// <param name="userMessage">The message to send to the model.</param>
+    /// <param name="model">The model to query.</param>
+    /// <param name="settings">Optional chat settings to customize the API request.</param>
+    /// <returns>A comparison result for the model.</returns>
+    public async Task<ModelComparisonResult> CompareModelAsync(
+        string apiKey,
+        string userMessage,
+        OpenAIModel model,
+        ChatSettings? settings = null)
+    {
+        return await GetModelResponseAsync(apiKey, userMessage, model, settings);
+    }
+
+    /// <summary>
     /// Gets a response from a specific OpenAI model for the given user message.
     /// </summary>
     /// <param name="apiKey">The OpenAI API key for authentication.</param>

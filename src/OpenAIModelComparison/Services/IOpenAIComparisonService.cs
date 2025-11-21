@@ -20,4 +20,18 @@ public interface IOpenAIComparisonService
         string userMessage,
         List<OpenAIModel> selectedModels,
         ChatSettings? settings = null);
+
+    /// <summary>
+    /// Compares a single OpenAI model by sending a user message and collecting the response.
+    /// </summary>
+    /// <param name="apiKey">The OpenAI API key for authentication.</param>
+    /// <param name="userMessage">The message to send to the model.</param>
+    /// <param name="model">The model to query.</param>
+    /// <param name="settings">Optional chat settings to customize the API request.</param>
+    /// <returns>A comparison result for the model.</returns>
+    Task<ModelComparisonResult> CompareModelAsync(
+        string apiKey,
+        string userMessage,
+        OpenAIModel model,
+        ChatSettings? settings = null);
 }
