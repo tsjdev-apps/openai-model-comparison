@@ -24,4 +24,16 @@ public class OpenAIModel
     /// </summary>
     [JsonPropertyName("isSelected")]
     public bool IsSelected { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the price in USD per 1 million input tokens.
+    /// </summary>
+    [JsonPropertyName("inputPricePerMillionTokens")]
+    public double InputPricePerMillionTokens { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the price in USD per 1 million output tokens.
+    /// </summary>
+    [JsonPropertyName("outputPricePerMillionTokens")]
+    public double OutputPricePerMillionTokens { get; set; }
 }

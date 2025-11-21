@@ -84,16 +84,24 @@ public class OpenAIComparisonService : IOpenAIComparisonService
             stopwatch.Stop();
 
             string content = response.Content[0].Text;
+            
+            int inputTokens = response.Usage.InputTokenCount;
+            int outputTokens = response.Usage.OutputTokenCount;
+            
+            double inputCost = (inputTokens / 1_000_000.0) * model.InputPricePerMillionTokens;
+            double outputCost = (outputTokens / 1_000_000.0) * model.OutputPricePerMillionTokens;
+            double totalCost = inputCost + outputCost;
 
             return new ModelComparisonResult
             {
                 ModelName = model.Name,
                 ModelDisplayName = model.DisplayName,
                 Response = content,
-                InputTokens = response.Usage.InputTokenCount,
-                OutputTokens = response.Usage.OutputTokenCount,
+                InputTokens = inputTokens,
+                OutputTokens = outputTokens,
                 TotalTokens = response.Usage.TotalTokenCount,
                 DurationInSeconds = stopwatch.Elapsed.TotalSeconds,
+                EstimatedCost = totalCost,
                 IsSuccess = true
             };
         }
@@ -110,6 +118,7 @@ public class OpenAIComparisonService : IOpenAIComparisonService
                 OutputTokens = 0,
                 TotalTokens = 0,
                 DurationInSeconds = stopwatch.Elapsed.TotalSeconds,
+                EstimatedCost = 0,
                 IsSuccess = false,
                 ErrorMessage = ex.Message
             };

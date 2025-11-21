@@ -208,11 +208,12 @@
                 <RadzenDataGrid Data="@comparisonResults" TItem="ModelComparisonResult" 
                                 AllowColumnResize="true" AllowSorting="true">
                     <Columns>
-                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="ModelDisplayName" Title="Model" Width="200px" />
-                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="InputTokens" Title="Input Tokens" Width="120px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="ModelDisplayName" Title="Model" Width="180px" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="InputTokens" Title="Input Tokens" Width="110px" TextAlign="TextAlign.Right" />
                         <RadzenDataGridColumn TItem="ModelComparisonResult" Property="OutputTokens" Title="Output Tokens" Width="120px" TextAlign="TextAlign.Right" />
-                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="TotalTokens" Title="Total Tokens" Width="120px" TextAlign="TextAlign.Right" />
-                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="DurationInSeconds" Title="Duration (s)" Width="120px" TextAlign="TextAlign.Right" FormatString="{0:F2}" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="TotalTokens" Title="Total Tokens" Width="110px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="EstimatedCost" Title="Est. Cost ($)" Width="110px" TextAlign="TextAlign.Right" FormatString="{0:F6}" />
+                        <RadzenDataGridColumn TItem="ModelComparisonResult" Property="DurationInSeconds" Title="Duration (s)" Width="110px" TextAlign="TextAlign.Right" FormatString="{0:F2}" />
                         <RadzenDataGridColumn TItem="ModelComparisonResult" Title="Status" Width="100px">
                             <Template Context="result">
                                 @if (result.IsSuccess)

@@ -41,6 +41,11 @@ public class ModelComparisonResult
     public double DurationInSeconds { get; set; }
     
     /// <summary>
+    /// Gets or sets the estimated cost in USD for this request.
+    /// </summary>
+    public double EstimatedCost { get; set; }
+    
+    /// <summary>
     /// Gets or sets a value indicating whether the request was successful.
     /// </summary>
     public bool IsSuccess { get; set; }

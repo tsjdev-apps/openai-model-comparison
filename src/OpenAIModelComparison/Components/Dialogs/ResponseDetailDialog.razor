@@ -38,6 +38,11 @@
                 <strong>Duration:</strong> @Result.DurationInSeconds.ToString("F2") seconds
             </RadzenText>
         </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Estimated Cost:</strong> $@Result.EstimatedCost.ToString("F6")
+            </RadzenText>
+        </RadzenColumn>
     </RadzenRow>
     
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" Style="margin-top: 1rem;">
