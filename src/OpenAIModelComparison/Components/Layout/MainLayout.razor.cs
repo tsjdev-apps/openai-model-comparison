@@ -18,7 +18,12 @@ public partial class MainLayout : LayoutComponentBase
     {
         await DialogService.OpenAsync<Dialogs.InfoDialog>("More Information",
             null,
-            new DialogOptions() { Width = "500px", CloseDialogOnOverlayClick = true });
+            new DialogOptions() 
+            { 
+                Width = "500px", 
+                CloseDialogOnOverlayClick = true,
+                AutoFocusFirstElement = false
+            });
     }
 
     /// <summary>
@@ -28,6 +33,11 @@ public partial class MainLayout : LayoutComponentBase
     {
         await DialogService.OpenAsync<Dialogs.ImprintDialog>("Imprint",
             null,
-            new DialogOptions() { Width = "600px", CloseDialogOnOverlayClick = true });
+            new DialogOptions() 
+            { 
+                Width = "750px", 
+                CloseDialogOnOverlayClick = true,
+                AutoFocusFirstElement = false
+            });
     }
 }
