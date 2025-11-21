@@ -76,7 +76,9 @@
                 </RadzenText>
                 @if (totalModels > 0)
                 {
-                    <RadzenProgressBar Value="@((double)currentModelIndex / totalModels * 100)" 
+                    double progressPercentage =
+						Math.Round((double)currentModelIndex / totalModels * 100, 2);
+                    <RadzenProgressBar Value="@progressPercentage" 
                                        ShowValue="true" 
                                        Style="width: 300px;" />
                 }
