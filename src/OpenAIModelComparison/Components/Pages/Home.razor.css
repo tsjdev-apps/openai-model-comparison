@@ -23,6 +23,17 @@
     user-select: none;
 }
 
+.sample-prompt-card {
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sample-prompt-card:hover:not([style*="opacity: 0.6"]) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 114, 228, 0.3);
+    background-color: #ffffff;
+}
+
 .response-cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
