@@ -1,0 +1,187 @@
+/* Dialog styling enhancements */
+
+/* Improve dialog content spacing */
+.rz-stack[style*="max-width: 600px"],
+.rz-stack[style*="max-width: 700px"] {
+    padding: 0.5rem;
+}
+
+/* Icon list styling with proper alignment */
+.rz-stack[style*="AlignItems.Start"] .rz-icon {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    line-height: 1;
+}
+
+.rz-icon[style*="color: #4caf50"],
+.rz-icon[style*="color: #5e72e4"] {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Enhance headings */
+.rz-text-h6 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+/* Subtitle styling */
+.rz-text-subtitle1 {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.rz-text-subtitle1::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 2px;
+}
+
+/* Alert box enhancements */
+.rz-alert-info {
+    border-left: 4px solid var(--info-color);
+    background: linear-gradient(135deg, rgba(17, 205, 239, 0.08) 0%, rgba(17, 205, 239, 0.04) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* List items with icons - better alignment */
+.rz-stack[style*="AlignItems.Start"] {
+    padding: 0.5rem 0;
+    align-items: flex-start !important;
+}
+
+.rz-stack[style*="AlignItems.Start"] .rz-text {
+    line-height: 1.5;
+    padding-top: 0.1rem;
+}
+
+/* Response detail card */
+.rz-card[style*="background-color: #f5f5f5"] {
+    background: linear-gradient(135deg, rgba(248, 249, 254, 0.8) 0%, rgba(238, 240, 252, 0.8) 100%) !important;
+    border: 1px solid rgba(94, 114, 228, 0.1);
+    border-radius: 8px;
+}
+
+/* Metrics grid enhancement */
+.rz-row {
+    margin-top: 0.5rem;
+}
+
+.rz-column {
+    padding: 0.5rem;
+}
+
+/* Link styling in footer */
+a[href*="tsjdev-apps"],
+a[href*="e-recht24"] {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+a[href*="tsjdev-apps"]::after,
+a[href*="e-recht24"]::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+a[href*="tsjdev-apps"]:hover::after,
+a[href*="e-recht24"]:hover::after {
+    transform: scaleX(1);
+}
+
+/* Close button enhancement */
+.rz-button[onclick*="Close"] {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 4px 6px rgba(94, 114, 228, 0.3);
+}
+
+.rz-button[onclick*="Close"]:hover {
+    box-shadow: 0 6px 12px rgba(94, 114, 228, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Responsive design for dialogs */
+@media (max-width: 768px) {
+    .rz-stack[style*="max-width: 600px"],
+    .rz-stack[style*="max-width: 700px"] {
+        padding: 0.25rem;
+    }
+    
+    .rz-text-h6 {
+        font-size: 1.25rem;
+    }
+    
+    .rz-text-subtitle1 {
+        font-size: 0.95rem;
+    }
+    
+    .rz-text-body1,
+    .rz-text-body2 {
+        font-size: 0.875rem;
+    }
+    
+    .rz-column {
+        padding: 0.25rem;
+    }
+    
+    .rz-stack[style*="AlignItems.Start"] .rz-icon {
+        font-size: 18px;
+    }
+}
+
+/* Animation for dialog content */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rz-dialog .rz-stack > * {
+    animation: slideIn 0.4s ease-out backwards;
+}
+
+.rz-dialog .rz-stack > *:nth-child(1) { animation-delay: 0.05s; }
+.rz-dialog .rz-stack > *:nth-child(2) { animation-delay: 0.1s; }
+.rz-dialog .rz-stack > *:nth-child(3) { animation-delay: 0.15s; }
+.rz-dialog .rz-stack > *:nth-child(4) { animation-delay: 0.2s; }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .rz-dialog .rz-stack > * {
+        animation: none;
+    }
+    
+    .rz-button[onclick*="Close"]:hover {
+        transform: none;
+    }
+}

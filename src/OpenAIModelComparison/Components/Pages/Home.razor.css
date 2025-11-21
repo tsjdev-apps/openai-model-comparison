@@ -1,1 +1,247 @@
 /* Styles specific to Home page that are not component-specific */
+
+ /* Model selection grid with modern card design */
+.model-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.model-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: rgba(94, 114, 228, 0.02);
+    border: 2px solid transparent;
+}
+
+.model-checkbox-item:hover {
+    background: rgba(94, 114, 228, 0.08);
+    border-color: rgba(94, 114, 228, 0.2);
+    transform: translateX(4px);
+}
+
+.model-checkbox-item:active {
+    transform: scale(0.98);
+}
+
+.model-label {
+    user-select: none;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Response cards grid with glassmorphism */
+.response-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.response-card {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(94, 114, 228, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.response-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.response-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(94, 114, 228, 0.15);
+    border-color: rgba(94, 114, 228, 0.3);
+}
+
+.response-card:hover::before {
+    transform: scaleX(1);
+}
+
+.response-preview {
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-height: 4.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin: 0.5rem 0;
+}
+
+/* Sample prompt cards styling */
+.sample-prompt-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(94, 114, 228, 0.1);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 254, 0.95) 100%);
+}
+
+.sample-prompt-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(94, 114, 228, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sample-prompt-card:hover:not([style*="opacity: 0.6"]) {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(94, 114, 228, 0.2);
+    border-color: rgba(94, 114, 228, 0.3);
+}
+
+.sample-prompt-card:hover:not([style*="opacity: 0.6"])::before {
+    opacity: 1;
+}
+
+.sample-prompt-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Advanced settings card enhancement */
+.rz-card[style*="background-color: #f8f9fa"] {
+    background: linear-gradient(135deg, rgba(248, 249, 254, 0.8) 0%, rgba(238, 240, 252, 0.8) 100%) !important;
+    border: 1px solid rgba(94, 114, 228, 0.1);
+}
+
+/* Sample prompts section background */
+.rz-card[style*="background-color: #f0f7ff"] {
+    background: linear-gradient(135deg, rgba(240, 247, 255, 0.8) 0%, rgba(230, 240, 255, 0.8) 100%) !important;
+    border: 1px solid rgba(17, 205, 239, 0.2);
+}
+
+/* Progress indicator enhancement */
+.rz-progressbar-circular {
+    filter: drop-shadow(0 2px 8px rgba(94, 114, 228, 0.3));
+}
+
+/* Responsive design for tablets */
+@media (max-width: 992px) {
+    .model-selection-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+    
+    .response-cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+    }
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .model-selection-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    .model-checkbox-item {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .response-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .response-card {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 576px) {
+    .model-selection-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .model-checkbox-item {
+        padding: 0.75rem;
+    }
+    
+    .response-preview {
+        font-size: 0.875rem;
+        -webkit-line-clamp: 2;
+        max-height: 3.2em;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .model-checkbox-item,
+    .response-card,
+    .sample-prompt-card {
+        transition: none;
+    }
+    
+    .response-card:hover,
+    .sample-prompt-card:hover {
+        transform: none;
+    }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    .model-checkbox-item {
+        background: rgba(94, 114, 228, 0.1);
+    }
+    
+    .response-preview {
+        color: rgba(255, 255, 255, 0.7);
+    }
+}
+
+/* Focus states for accessibility */
+.model-checkbox-item:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.response-card:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Animation for loading states */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}

@@ -1,10 +1,186 @@
+/* Sample prompt cards with glassmorphism and animations */
 .sample-prompt-card {
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(94, 114, 228, 0.15);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 254, 0.95) 100%);
+    backdrop-filter: blur(10px);
+}
+
+.sample-prompt-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(94, 114, 228, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sample-prompt-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(94, 114, 228, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: all 0.6s ease;
 }
 
 .sample-prompt-card:hover:not([style*="opacity: 0.6"]) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(94, 114, 228, 0.3);
-    background-color: #ffffff;
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(94, 114, 228, 0.25);
+    border-color: rgba(94, 114, 228, 0.4);
+}
+
+.sample-prompt-card:hover:not([style*="opacity: 0.6"])::before {
+    opacity: 1;
+}
+
+.sample-prompt-card:hover:not([style*="opacity: 0.6"])::after {
+    opacity: 1;
+    transform: translate(-25%, -25%);
+}
+
+.sample-prompt-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Icon styling with pulse effect */
+.sample-prompt-card .rz-icon {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(94, 114, 228, 0.2));
+}
+
+.sample-prompt-card:hover .rz-icon {
+    transform: scale(1.15) rotate(5deg);
+    filter: drop-shadow(0 4px 8px rgba(94, 114, 228, 0.4));
+}
+
+/* Title styling */
+.sample-prompt-card .rz-text-subtitle2 {
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+}
+
+.sample-prompt-card:hover .rz-text-subtitle2 {
+    color: var(--primary-color);
+}
+
+/* Description styling */
+.sample-prompt-card .rz-text-caption {
+    line-height: 1.5;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.sample-prompt-card:hover .rz-text-caption {
+    opacity: 1;
+}
+
+/* Grid layout with staggered animation */
+.sample-prompt-card {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.sample-prompt-card:nth-child(1) { animation-delay: 0.1s; }
+.sample-prompt-card:nth-child(2) { animation-delay: 0.2s; }
+.sample-prompt-card:nth-child(3) { animation-delay: 0.3s; }
+.sample-prompt-card:nth-child(4) { animation-delay: 0.4s; }
+.sample-prompt-card:nth-child(5) { animation-delay: 0.5s; }
+.sample-prompt-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Active/Selected state */
+.sample-prompt-card:active:not([style*="opacity: 0.6"]) {
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(94, 114, 228, 0.2);
+}
+
+/* Disabled state */
+.sample-prompt-card[style*="opacity: 0.6"] {
+    cursor: not-allowed;
+    filter: grayscale(50%);
+}
+
+/* Responsive design for tablets */
+@media (max-width: 992px) {
+    .sample-prompt-card {
+        padding: 1rem;
+    }
+    
+    .sample-prompt-card .rz-icon {
+        font-size: 1.25rem;
+    }
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .sample-prompt-card {
+        padding: 0.875rem;
+    }
+    
+    .sample-prompt-card:hover:not([style*="opacity: 0.6"]) {
+        transform: translateY(-4px);
+    }
+    
+    .sample-prompt-card .rz-text-subtitle2 {
+        font-size: 0.9rem;
+    }
+    
+    .sample-prompt-card .rz-text-caption {
+        font-size: 0.75rem;
+    }
+}
+
+/* Accessibility improvements */
+.sample-prompt-card:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .sample-prompt-card {
+        animation: none;
+        transition: none;
+    }
+    
+    .sample-prompt-card:hover:not([style*="opacity: 0.6"]) {
+        transform: none;
+    }
+    
+    .sample-prompt-card:hover .rz-icon {
+        transform: none;
+    }
+    
+    .sample-prompt-card::after {
+        display: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .sample-prompt-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
 }
