@@ -2,7 +2,11 @@
 
 <RadzenCard Style="background-color: #f8f9fa; padding: 1rem;">
     <RadzenStack Gap="1rem">
-        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
+        <RadzenStack Orientation="Orientation.Horizontal" 
+                     JustifyContent="JustifyContent.SpaceBetween" 
+                     AlignItems="AlignItems.Center"
+                     Style="@(IsDisabled ? "cursor: not-allowed;" : "cursor: pointer;")"
+                     @onclick="HandleHeaderClick">
             <RadzenText TextStyle="TextStyle.Subtitle1">
                 Advanced Settings
             </RadzenText>
@@ -13,15 +17,17 @@
                                 Icon="refresh" 
                                 ButtonStyle="ButtonStyle.Light"
                                 Size="ButtonSize.Small"
-                                Click="@OnReset"
-                                Disabled="@IsDisabled" />
+                                Click="@HandleResetClick"
+                                Disabled="@IsDisabled"
+                                @onclick:stopPropagation="true" />
                 }
                 <RadzenButton Text="@(IsExpanded ? "Hide" : "Show")" 
                             Icon="@(IsExpanded ? "expand_less" : "expand_more")" 
                             ButtonStyle="ButtonStyle.Light"
                             Size="ButtonSize.Small"
                             Click="@OnToggle"
-                            Disabled="@IsDisabled" />
+                            Disabled="@IsDisabled"
+                            @onclick:stopPropagation="true" />
             </RadzenStack>
         </RadzenStack>
 

@@ -78,4 +78,23 @@ public partial class AdvancedSettingsSection : ComponentBase
     /// </summary>
     [Parameter]
     public EventCallback OnReset { get; set; }
+    
+    /// <summary>
+    /// Handles clicking on the header to toggle the advanced settings.
+    /// </summary>
+    private async Task HandleHeaderClick()
+    {
+        if (!IsDisabled)
+        {
+            await OnToggle.InvokeAsync();
+        }
+    }
+    
+    /// <summary>
+    /// Handles clicking on the reset button.
+    /// </summary>
+    private async Task HandleResetClick()
+    {
+        await OnReset.InvokeAsync();
+    }
 }
