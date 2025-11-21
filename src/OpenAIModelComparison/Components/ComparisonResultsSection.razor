@@ -1,0 +1,78 @@
+@*
+    Component for displaying model comparison results.
+    Shows results in two formats: a detailed data grid with metrics, and clickable response cards.
+    Also displays any errors that occurred during processing.
+*@
+
+@using OpenAIModelComparison.Models
+
+<RadzenStack Gap="1.5rem">
+    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3">
+        Comparison Results
+    </RadzenText>
+
+    <!-- Results Table - Displays metrics for all models -->
+    <RadzenDataGrid Data="@Results" TItem="ModelComparisonResult" 
+                    AllowColumnResize="true" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Property="ModelDisplayName" Title="Model" Width="180px" />
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Property="InputTokens" Title="Input Tokens" Width="110px" TextAlign="TextAlign.Right" />
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Property="OutputTokens" Title="Output Tokens" Width="120px" TextAlign="TextAlign.Right" />
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Property="TotalTokens" Title="Total Tokens" Width="110px" TextAlign="TextAlign.Right" />
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Property="EstimatedCost" Title="Est. Cost ($)" Width="110px" TextAlign="TextAlign.Right" FormatString="{0:F6}" />
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Property="DurationInSeconds" Title="Duration (s)" Width="110px" TextAlign="TextAlign.Right" FormatString="{0:F2}" />
+            <RadzenDataGridColumn TItem="ModelComparisonResult" Title="Status" Width="100px">
+                <Template Context="result">
+                    @if (result.IsSuccess)
+                    {
+                        <RadzenBadge BadgeStyle="BadgeStyle.Success" Text="Success" />
+                    }
+                    else
+                    {
+                        <RadzenBadge BadgeStyle="BadgeStyle.Danger" Text="Failed" />
+                    }
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+    <!-- Response Cards - Shows preview of successful responses -->
+    <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem;">
+        Responses
+    </RadzenText>
+
+    <div class="response-cards-grid">
+        @foreach (var result in Results.Where(r => r.IsSuccess))
+        {
+            <!-- Clickable card to view full response in dialog -->
+            <RadzenCard class="response-card" @onclick="@(() => OnResultSelected.InvokeAsync(result))">
+                <RadzenStack Gap="0.5rem">
+                    <RadzenText TextStyle="TextStyle.Subtitle2">
+                        @result.ModelDisplayName
+                    </RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" class="response-preview">
+                        @GetResponsePreview(result.Response)
+                    </RadzenText>
+                    <RadzenText TextStyle="TextStyle.Caption" Style="color: #666;">
+                        Click to view full response
+                    </RadzenText>
+                </RadzenStack>
+            </RadzenCard>
+        }
+    </div>
+
+    <!-- Error Section - Displays any failed model requests -->
+    @if (Results.Any(r => !r.IsSuccess))
+    {
+        <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem; color: #d32f2f;">
+            Errors
+        </RadzenText>
+
+        @foreach (var result in Results.Where(r => !r.IsSuccess))
+        {
+            <RadzenAlert AlertStyle="AlertStyle.Danger" Variant="Variant.Flat">
+                <strong>@result.ModelDisplayName:</strong> @result.ErrorMessage
+            </RadzenAlert>
+        }
+    }
+</RadzenStack>

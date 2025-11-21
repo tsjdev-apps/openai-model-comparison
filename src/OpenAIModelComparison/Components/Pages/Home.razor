@@ -1,7 +1,95 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+@using OpenAIModelComparison.Components
 
-<h1>Hello, world!</h1>
+@* 
+    Home page component for OpenAI Model Comparison application.
+    Provides UI for selecting models, configuring settings, sending prompts, and viewing comparison results.
+ *@
 
-Welcome to your new app.
+<PageTitle>OpenAI Model Comparison</PageTitle>
+
+<RadzenStack Gap="2rem" Class="rz-p-4">
+    <!-- Main configuration card containing all input controls -->
+    <RadzenCard>
+        <RadzenStack Gap="1.5rem">
+            <!-- OpenAI API Key Input - Required for making API requests -->
+            <RadzenFormField Text="OpenAI API Key" Variant="Variant.Outlined">
+                <RadzenPassword @bind-Value="@apiKey" 
+                                Placeholder="Enter your OpenAI API key..." 
+                                Style="width: 100%;"
+                                Disabled="@(isProcessing || isLoadingModels)" />
+            </RadzenFormField>
+
+            <!-- Model Selection - Choose which OpenAI models to compare -->
+            <RadzenFormField Text="Select Models" Variant="Variant.Outlined">
+                <ModelSelectionSection Models="@availableModels"
+                                       IsLoading="@isLoadingModels"
+                                       IsDisabled="@isProcessing"
+                                       OnModelToggled="@ToggleModel"
+                                       OnModelChanged="@OnModelSelectionChanged" />
+            </RadzenFormField>
+
+            <!-- Advanced Settings Section - Optional parameters like temperature, top-p, etc. -->
+            <AdvancedSettingsSection IsExpanded="@showAdvancedSettings"
+                                     IsDisabled="@(isProcessing || isLoadingModels)"
+                                     @bind-MaxTokens="@maxTokens"
+                                     @bind-Temperature="@temperature"
+                                     @bind-TopP="@topP"
+                                     @bind-FrequencyPenalty="@frequencyPenalty"
+                                     OnToggle="@ToggleAdvancedSettings"
+                                     OnReset="@ResetAdvancedSettings" />
+
+            <!-- Sample Prompts Section - Pre-configured prompts for testing different capabilities -->
+            <SamplePromptsSection SamplePrompts="@samplePrompts"
+                                  IsDisabled="@(isProcessing || isLoadingModels)"
+                                  OnSampleSelected="@ApplySamplePrompt" />
+
+            <!-- Message Input - The prompt/question to send to selected models -->
+            <RadzenFormField Text="Your Message" Variant="Variant.Outlined">
+                <RadzenTextArea @bind-Value="@userMessage" 
+                                Placeholder="Enter your message to send to the selected models..." 
+                                Rows="5" 
+                                Style="width: 100%;"
+                                Disabled="@(isProcessing || isLoadingModels)" />
+            </RadzenFormField>
+
+            <!-- Send Button - Triggers the model comparison process -->
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Text="Send to Models" 
+                              Icon="send" 
+                              ButtonStyle="ButtonStyle.Primary"
+                              Click="@SendMessage"
+                              Disabled="@(!CanSendMessage())" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenCard>
+
+    <!-- Processing Indicator - Shows progress while processing models sequentially -->
+    @if (isProcessing)
+    {
+        <RadzenCard>
+            <RadzenStack Gap="1rem" AlignItems="AlignItems.Center">
+                <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                <RadzenText TextStyle="TextStyle.Body1">
+                    Processing model @currentModelIndex of @totalModels...
+                </RadzenText>
+                @if (totalModels > 0)
+                {
+                    <RadzenProgressBar Value="@((double)currentModelIndex / totalModels * 100)" 
+                                       ShowValue="true" 
+                                       Style="width: 300px;" />
+                }
+            </RadzenStack>
+        </RadzenCard>
+    }
+
+    <!-- Results Section - Displays comparison results in table and card format -->
+    @if (comparisonResults.Any() && !isProcessing)
+    {
+        <RadzenCard>
+            <ComparisonResultsSection Results="@comparisonResults"
+                                      OnResultSelected="@ShowResponseDetail" />
+        </RadzenCard>
+    }
+</RadzenStack>

@@ -1,0 +1,37 @@
+using OpenAIModelComparison.Models;
+
+namespace OpenAIModelComparison.Services;
+
+/// <summary>
+/// Defines the contract for comparing responses from different OpenAI models.
+/// </summary>
+public interface IOpenAIComparisonService
+{
+    /// <summary>
+    /// Compares multiple OpenAI models by sending the same user message to each model and collecting their responses.
+    /// </summary>
+    /// <param name="apiKey">The OpenAI API key for authentication.</param>
+    /// <param name="userMessage">The message to send to each model.</param>
+    /// <param name="selectedModels">The list of models to compare.</param>
+    /// <param name="settings">Optional chat settings to customize the API request.</param>
+    /// <returns>A list of comparison results, one for each model.</returns>
+    Task<List<ModelComparisonResult>> CompareModelsAsync(
+        string apiKey,
+        string userMessage,
+        List<OpenAIModel> selectedModels,
+        ChatSettings? settings = null);
+
+    /// <summary>
+    /// Compares a single OpenAI model by sending a user message and collecting the response.
+    /// </summary>
+    /// <param name="apiKey">The OpenAI API key for authentication.</param>
+    /// <param name="userMessage">The message to send to the model.</param>
+    /// <param name="model">The model to query.</param>
+    /// <param name="settings">Optional chat settings to customize the API request.</param>
+    /// <returns>A comparison result for the model.</returns>
+    Task<ModelComparisonResult> CompareModelAsync(
+        string apiKey,
+        string userMessage,
+        OpenAIModel model,
+        ChatSettings? settings = null);
+}

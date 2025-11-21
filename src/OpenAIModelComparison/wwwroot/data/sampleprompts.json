@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Creative Writing",
+    "description": "Test creative and narrative abilities",
+    "icon": "auto_stories",
+    "prompt": "Write a short story (100 words) about a time traveler who accidentally changes a small detail in the past, only to discover it has massive consequences in the present."
+  },
+  {
+    "title": "Code Generation",
+    "description": "Test programming and technical skills",
+    "icon": "code",
+    "prompt": "Write a C# function that finds the longest palindromic substring in a given string. Include error handling and XML documentation comments."
+  },
+  {
+    "title": "Problem Solving",
+    "description": "Test logical reasoning and analysis",
+    "icon": "psychology",
+    "prompt": "You have 8 balls. One of them is slightly heavier than the others. Using a balance scale only twice, how can you identify the heavier ball? Explain your reasoning step by step."
+  },
+  {
+    "title": "Data Analysis",
+    "description": "Test analytical and summarization skills",
+    "icon": "analytics",
+    "prompt": "Analyze the following scenario: A company's website traffic increased by 300% in Q1, but sales only increased by 15%. What could be the potential reasons for this discrepancy? Provide 5 possible explanations with brief reasoning."
+  },
+  {
+    "title": "Translation & Culture",
+    "description": "Test language and cultural understanding",
+    "icon": "translate",
+    "prompt": "Translate the English idiom 'It's raining cats and dogs' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists."
+  },
+  {
+    "title": "Math & Logic",
+    "description": "Test mathematical reasoning and explanation",
+    "icon": "calculate",
+    "prompt": "Explain the Monty Hall problem: You're on a game show with 3 doors. Behind one is a car, behind the others are goats. You pick door 1. The host, who knows what's behind each door, opens door 3 revealing a goat. Should you switch to door 2? Explain with probability calculations."
+  }
+]

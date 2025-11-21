@@ -1,0 +1,100 @@
+using Microsoft.AspNetCore.Components;
+
+namespace OpenAIModelComparison.Components;
+
+/// <summary>
+/// Component for managing advanced chat completion settings.
+/// </summary>
+public partial class AdvancedSettingsSection : ComponentBase
+{
+    /// <summary>
+    /// Gets or sets whether the advanced settings section is expanded.
+    /// </summary>
+    [Parameter]
+    public bool IsExpanded { get; set; }
+    
+    /// <summary>
+    /// Gets or sets whether the component is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the maximum number of tokens to generate.
+    /// </summary>
+    [Parameter]
+    public int? MaxTokens { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when MaxTokens changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<int?> MaxTokensChanged { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the sampling temperature.
+    /// </summary>
+    [Parameter]
+    public float? Temperature { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when Temperature changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<float?> TemperatureChanged { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the nucleus sampling parameter.
+    /// </summary>
+    [Parameter]
+    public float? TopP { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when TopP changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<float?> TopPChanged { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the frequency penalty.
+    /// </summary>
+    [Parameter]
+    public float? FrequencyPenalty { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when FrequencyPenalty changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<float?> FrequencyPenaltyChanged { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when the toggle button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnToggle { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when the reset button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnReset { get; set; }
+    
+    /// <summary>
+    /// Handles clicking on the header to toggle the advanced settings.
+    /// </summary>
+    private async Task HandleHeaderClick()
+    {
+        if (!IsDisabled)
+        {
+            await OnToggle.InvokeAsync();
+        }
+    }
+    
+    /// <summary>
+    /// Handles clicking on the reset button.
+    /// </summary>
+    private async Task HandleResetClick()
+    {
+        await OnReset.InvokeAsync();
+    }
+}

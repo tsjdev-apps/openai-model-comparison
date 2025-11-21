@@ -1,0 +1,62 @@
+@*
+    Dialog component for displaying detailed response information from a single model.
+    Shows the full response text along with metrics like token usage, duration, and estimated cost.
+*@
+
+<RadzenStack Gap="1rem">
+    <!-- Model name header -->
+    <RadzenText TextStyle="TextStyle.H6">
+        @Result.ModelDisplayName
+    </RadzenText>
+    
+    <!-- Response section label -->
+    <RadzenText TextStyle="TextStyle.Subtitle2" Style="margin-top: 0.5rem;">
+        Response:
+    </RadzenText>
+    
+    <!-- Full response text with preserved formatting -->
+    <RadzenCard Style="background-color: #f5f5f5; padding: 1rem;">
+        <RadzenText TextStyle="TextStyle.Body1" Style="white-space: pre-wrap; word-wrap: break-word;">
+            @Result.Response
+        </RadzenText>
+    </RadzenCard>
+    
+    <!-- Metrics section label -->
+    <RadzenText TextStyle="TextStyle.Subtitle2" Style="margin-top: 1rem;">
+        Metrics:
+    </RadzenText>
+    
+    <!-- Metrics grid showing token usage, duration, and cost -->
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Input Tokens:</strong> @Result.InputTokens
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Output Tokens:</strong> @Result.OutputTokens
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Total Tokens:</strong> @Result.TotalTokens
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Duration:</strong> @Result.DurationInSeconds.ToString("F2") seconds
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Estimated Cost:</strong> $@Result.EstimatedCost.ToString("F6")
+            </RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+    
+    <!-- Close button -->
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" Style="margin-top: 1rem;">
+        <RadzenButton Text="Close" Click="@(() => DialogService.Close())" Variant="Variant.Flat" />
+    </RadzenStack>
+</RadzenStack>
