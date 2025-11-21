@@ -92,6 +92,11 @@ public partial class Home : ComponentBase
     /// <param name="model">The model to toggle.</param>
     private void ToggleModel(OpenAIModel model)
     {
+        if (isProcessing || isLoadingModels)
+        {
+            return;
+        }
+        
         model.IsSelected = !model.IsSelected;
         StateHasChanged();
     }
@@ -102,6 +107,11 @@ public partial class Home : ComponentBase
     /// <param name="_">The model that was changed (unused).</param>
     private void OnModelSelectionChanged(OpenAIModel _)
     {
+        if (isProcessing || isLoadingModels)
+        {
+            return;
+        }
+        
         StateHasChanged();
     }
 
@@ -110,6 +120,11 @@ public partial class Home : ComponentBase
     /// </summary>
     private void ToggleAdvancedSettings()
     {
+        if (isProcessing || isLoadingModels)
+        {
+            return;
+        }
+        
         showAdvancedSettings = !showAdvancedSettings;
     }
 
@@ -118,6 +133,11 @@ public partial class Home : ComponentBase
     /// </summary>
     private void ResetAdvancedSettings()
     {
+        if (isProcessing || isLoadingModels)
+        {
+            return;
+        }
+        
         maxTokens = null;
         temperature = 1.0f;
         topP = null;
@@ -127,8 +147,7 @@ public partial class Home : ComponentBase
 
     /// <summary>
     /// Determines whether a message can be sent based on current state.
-    /// </summary>
-    /// <returns>True if a message can be sent, false otherwise.</returns>
+    /// /// <returns>True if a message can be sent, false otherwise.</returns>
     private bool CanSendMessage()
     {
         return !string.IsNullOrWhiteSpace(apiKey)
