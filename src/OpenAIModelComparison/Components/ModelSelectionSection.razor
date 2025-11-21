@@ -1,0 +1,33 @@
+@using OpenAIModelComparison.Models
+
+@if (IsLoading)
+{
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Class="rz-p-2">
+        <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Small" />
+        <RadzenText TextStyle="TextStyle.Body2">Loading models...</RadzenText>
+    </RadzenStack>
+}
+else if (!Models.Any())
+{
+    <RadzenText TextStyle="TextStyle.Body2" Class="rz-p-2">
+        No models available. Please check your configuration.
+    </RadzenText>
+}
+else
+{
+    <div class="model-selection-grid">
+        @foreach (var model in Models)
+        {
+            <div class="model-checkbox-item" @onclick="() => OnModelToggled.InvokeAsync(model)" style="@(IsDisabled ? "cursor: not-allowed;" : "cursor: pointer;")">
+                <RadzenCheckBox @bind-Value="@model.IsSelected" 
+                                Name="@model.Name" 
+                                TValue="bool"
+                                Change="@(() => OnModelChanged.InvokeAsync(model))"
+                                Id="@model.Name"
+                                Disabled="@IsDisabled"
+                                @onclick:stopPropagation="true" />
+                <span class="model-label" style="@(IsDisabled ? "opacity: 0.5;" : "")">@model.DisplayName</span>
+            </div>
+        }
+    </div>
+}

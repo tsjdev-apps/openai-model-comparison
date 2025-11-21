@@ -1,0 +1,115 @@
+@using OpenAIModelComparison.Models
+
+<RadzenCard Style="background-color: #f8f9fa; padding: 1rem;">
+    <RadzenStack Gap="1rem">
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
+            <RadzenText TextStyle="TextStyle.Subtitle1">
+                Advanced Settings
+            </RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+                @if (IsExpanded)
+                {
+                    <RadzenButton Text="Reset" 
+                                Icon="refresh" 
+                                ButtonStyle="ButtonStyle.Light"
+                                Size="ButtonSize.Small"
+                                Click="@OnReset"
+                                Disabled="@IsDisabled" />
+                }
+                <RadzenButton Text="@(IsExpanded ? "Hide" : "Show")" 
+                            Icon="@(IsExpanded ? "expand_less" : "expand_more")" 
+                            ButtonStyle="ButtonStyle.Light"
+                            Size="ButtonSize.Small"
+                            Click="@OnToggle"
+                            Disabled="@IsDisabled" />
+            </RadzenStack>
+        </RadzenStack>
+
+        @if (IsExpanded)
+        {
+            <RadzenRow Gap="1rem">
+                <RadzenColumn Size="12" SizeMD="6">
+                    <RadzenFormField Text="Max Tokens" Variant="Variant.Outlined" Style="width: 100%;">
+                        <ChildContent>
+                            <RadzenNumeric @bind-Value="@MaxTokens" 
+                                           TValue="int?"
+                                           Placeholder="Default (model specific)"
+                                           Min="1"
+                                           Max="32000"
+                                           ShowUpDown="false"
+                                           Style="width: 100%;"
+                                           Disabled="@IsDisabled" />
+                        </ChildContent>
+                        <Helper>
+                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
+                                Maximum number of tokens to generate (leave empty for model default)
+                            </RadzenText>
+                        </Helper>
+                    </RadzenFormField>
+                </RadzenColumn>
+
+                <RadzenColumn Size="12" SizeMD="6">
+                    <RadzenFormField Text="Temperature" Variant="Variant.Outlined" Style="width: 100%;">
+                        <ChildContent>
+                            <RadzenNumeric @bind-Value="@Temperature" 
+                                           TValue="float?"
+                                           Min="0"
+                                           Max="2"
+                                           Step="0.1"
+                                           ShowUpDown="true"
+                                           Style="width: 100%;"
+                                           Disabled="@IsDisabled" />
+                        </ChildContent>
+                        <Helper>
+                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
+                                Sampling temperature (0-2). Higher = more random. Default: 1.0
+                            </RadzenText>
+                        </Helper>
+                    </RadzenFormField>
+                </RadzenColumn>
+
+                <RadzenColumn Size="12" SizeMD="6">
+                    <RadzenFormField Text="Top P" Variant="Variant.Outlined" Style="width: 100%;">
+                        <ChildContent>
+                            <RadzenNumeric @bind-Value="@TopP" 
+                                           TValue="float?"
+                                           Placeholder="Default"
+                                           Min="0"
+                                           Max="1"
+                                           Step="0.1"
+                                           ShowUpDown="true"
+                                           Style="width: 100%;"
+                                           Disabled="@IsDisabled" />
+                        </ChildContent>
+                        <Helper>
+                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
+                                Nucleus sampling (0-1). Alternative to temperature
+                            </RadzenText>
+                        </Helper>
+                    </RadzenFormField>
+                </RadzenColumn>
+
+                <RadzenColumn Size="12" SizeMD="6">
+                    <RadzenFormField Text="Frequency Penalty" Variant="Variant.Outlined" Style="width: 100%;">
+                        <ChildContent>
+                            <RadzenNumeric @bind-Value="@FrequencyPenalty" 
+                                           TValue="float?"
+                                           Placeholder="Default (0)"
+                                           Min="-2"
+                                           Max="2"
+                                           Step="0.1"
+                                           ShowUpDown="true"
+                                           Style="width: 100%;"
+                                           Disabled="@IsDisabled" />
+                        </ChildContent>
+                        <Helper>
+                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
+                                Penalty for token frequency (-2.0 to 2.0). Positive = less repetition
+                            </RadzenText>
+                        </Helper>
+                    </RadzenFormField>
+                </RadzenColumn>
+            </RadzenRow>
+        }
+    </RadzenStack>
+</RadzenCard>

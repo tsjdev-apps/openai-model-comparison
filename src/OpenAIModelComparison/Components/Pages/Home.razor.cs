@@ -298,6 +298,21 @@ public partial class Home : ComponentBase
     }
 
     /// <summary>
+    /// Applies a sample prompt to the message input field.
+    /// </summary>
+    /// <param name="prompt">The sample prompt to apply.</param>
+    private void ApplySamplePrompt(SamplePrompt prompt)
+    {
+        if (isProcessing || isLoadingModels)
+        {
+            return;
+        }
+        
+        userMessage = prompt.Prompt;
+        StateHasChanged();
+    }
+
+    /// <summary>
     /// Opens a dialog to show detailed response information for a specific model result.
     /// </summary>
     /// <param name="result">The model comparison result to display.</param>
@@ -313,36 +328,5 @@ public partial class Home : ComponentBase
                 Draggable = true,
                 AutoFocusFirstElement = false
             });
-    }
-
-    /// <summary>
-    /// Gets a preview of the response text, truncated to the specified maximum length.
-    /// </summary>
-    /// <param name="response">The full response text.</param>
-    /// <param name="maxLength">The maximum length of the preview.</param>
-    /// <returns>A truncated version of the response or "No response" if empty.</returns>
-    private static string GetResponsePreview(string response, int maxLength = 100)
-    {
-        if (string.IsNullOrEmpty(response))
-            return "No response";
-
-        return response.Length <= maxLength 
-            ? response 
-            : response[..maxLength] + "...";
-    }
-
-    /// <summary>
-    /// Applies a sample prompt to the message input field.
-    /// </summary>
-    /// <param name="prompt">The sample prompt to apply.</param>
-    private void ApplySamplePrompt(SamplePrompt prompt)
-    {
-        if (isProcessing || isLoadingModels)
-        {
-            return;
-        }
-        
-        userMessage = prompt.Prompt;
-        StateHasChanged();
     }
 }

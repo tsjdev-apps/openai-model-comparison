@@ -1,0 +1,30 @@
+.model-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.model-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.model-checkbox-item:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.model-label {
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .model-selection-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
