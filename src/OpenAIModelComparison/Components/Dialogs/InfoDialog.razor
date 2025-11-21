@@ -1,11 +1,89 @@
-<RadzenStack Gap="1rem">
-    <RadzenText TextStyle="TextStyle.Body1">
-        This application enables direct comparison of different OpenAI models.
+<RadzenStack Gap="1.5rem" Style="max-width: 600px;">
+    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3">
+        About OpenAI Model Comparison
     </RadzenText>
+    
     <RadzenText TextStyle="TextStyle.Body1">
-        More information coming soon.
+        This application enables you to compare different OpenAI models side by side with the same prompt. 
+        It helps you understand the differences in responses, performance, and cost across various models.
     </RadzenText>
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+    
+    <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem;">
+        Key Features
+    </RadzenText>
+    
+    <RadzenStack Gap="0.5rem">
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
+            <RadzenIcon Icon="check_circle" Style="color: #4caf50; margin-top: 2px;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                Compare multiple OpenAI models simultaneously
+            </RadzenText>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
+            <RadzenIcon Icon="check_circle" Style="color: #4caf50; margin-top: 2px;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                View detailed metrics including token usage, duration, and estimated costs
+            </RadzenText>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
+            <RadzenIcon Icon="check_circle" Style="color: #4caf50; margin-top: 2px;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                Customize advanced settings like temperature, top-p, and frequency penalty
+            </RadzenText>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
+            <RadzenIcon Icon="check_circle" Style="color: #4caf50; margin-top: 2px;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                Use pre-configured sample prompts to test different capabilities
+            </RadzenText>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Start">
+            <RadzenIcon Icon="check_circle" Style="color: #4caf50; margin-top: 2px;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                Sequential processing with real-time progress tracking
+            </RadzenText>
+        </RadzenStack>
+    </RadzenStack>
+    
+    <RadzenText TextStyle="TextStyle.Subtitle1" Style="margin-top: 1rem;">
+        Technology Stack
+    </RadzenText>
+    
+    <RadzenStack Gap="0.5rem">
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center">
+            <RadzenIcon Icon="web" Style="color: #5e72e4;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Blazor Server</strong> - .NET 10
+            </RadzenText>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center">
+            <RadzenIcon Icon="extension" Style="color: #5e72e4;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Azure.AI.OpenAI</strong> - Official OpenAI SDK for .NET
+            </RadzenText>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center">
+            <RadzenIcon Icon="dashboard" Style="color: #5e72e4;" />
+            <RadzenText TextStyle="TextStyle.Body2">
+                <strong>Radzen.Blazor</strong> - Premium Blazor UI components
+            </RadzenText>
+        </RadzenStack>
+    </RadzenStack>
+    
+    <RadzenAlert AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Style="margin-top: 1rem;">
+        <RadzenText TextStyle="TextStyle.Body2">
+            <strong>Note:</strong> You need a valid OpenAI API key to use this application. 
+            Your API key is only used for making requests and is never stored.
+        </RadzenText>
+    </RadzenAlert>
+    
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" Style="margin-top: 1rem;">
         <RadzenButton Text="Close" Click="@(() => DialogService.Close())" Variant="Variant.Flat" />
     </RadzenStack>
 </RadzenStack>
