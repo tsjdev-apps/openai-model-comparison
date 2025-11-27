@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace OpenAIModelComparison.Components;
+namespace OpenAIModelComparison.Components.Views;
 
 /// <summary>
 /// Component for managing advanced chat completion settings.
