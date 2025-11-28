@@ -40,7 +40,6 @@ public partial class Home : ComponentBase
     private List<SamplePrompt> samplePrompts = [];
 
     private int? maxTokens = null;
-    private float? temperature = 1.0f;
     private float? topP = null;
     private float? frequencyPenalty = null;
 
@@ -180,7 +179,6 @@ public partial class Home : ComponentBase
         }
 
         maxTokens = null;
-        temperature = 1.0f;
         topP = null;
         frequencyPenalty = null;
         StateHasChanged();
@@ -219,7 +217,6 @@ public partial class Home : ComponentBase
             ChatSettings settings = new()
             {
                 MaxTokens = maxTokens,
-                Temperature = temperature,
                 TopP = topP,
                 FrequencyPenalty = frequencyPenalty
             };

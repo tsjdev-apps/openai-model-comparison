@@ -65,27 +65,6 @@
                     </RadzenFormField>
                 </RadzenColumn>
 
-                <!-- Temperature Setting -->
-                <RadzenColumn Size="12" SizeMD="6">
-                    <RadzenFormField Text="Temperature" Variant="Variant.Outlined" Style="width: 100%;">
-                        <ChildContent>
-                            <RadzenNumeric @bind-Value="@Temperature" 
-                                           TValue="float?"
-                                           Min="0"
-                                           Max="2"
-                                           Step="0.1"
-                                           ShowUpDown="true"
-                                           Style="width: 100%;"
-                                           Disabled="@IsDisabled" />
-                        </ChildContent>
-                        <Helper>
-                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
-                                Sampling temperature (0-2). Higher = more random. Default: 1.0
-                            </RadzenText>
-                        </Helper>
-                    </RadzenFormField>
-                </RadzenColumn>
-
                 <!-- Top P Setting -->
                 <RadzenColumn Size="12" SizeMD="6">
                     <RadzenFormField Text="Top P" Variant="Variant.Outlined" Style="width: 100%;">
