@@ -288,9 +288,9 @@ public partial class Home : ComponentBase
     }
 
     /// <summary>
-    /// Applies a sample prompt to the message input field.
+    /// Applies a randomly selected sample prompt from the category to the message input field.
     /// </summary>
-    /// <param name="prompt">The sample prompt to apply.</param>
+    /// <param name="prompt">The sample prompt category to apply.</param>
     private void ApplySamplePrompt(SamplePrompt prompt)
     {
         if (isProcessing || isLoadingModels)
@@ -298,7 +298,7 @@ public partial class Home : ComponentBase
             return;
         }
 
-        userMessage = prompt.Prompt;
+        userMessage = prompt.GetRandomPrompt();
         StateHasChanged();
     }
 
