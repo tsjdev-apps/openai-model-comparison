@@ -11,11 +11,6 @@ public class ChatSettings
     public int? MaxTokens { get; set; }
 
     /// <summary>
-    /// Gets or sets the sampling temperature (0-2). Higher values make output more random.
-    /// </summary>
-    public float? Temperature { get; set; }
-
-    /// <summary>
     /// Gets or sets the nucleus sampling parameter (0-1). Alternative to temperature.
     /// </summary>
     public float? TopP { get; set; }

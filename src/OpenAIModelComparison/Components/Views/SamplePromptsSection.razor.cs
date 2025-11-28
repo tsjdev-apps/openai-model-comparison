@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using OpenAIModelComparison.Models;
 
-namespace OpenAIModelComparison.Components;
+namespace OpenAIModelComparison.Components.Views;
 
 /// <summary>
 /// Component for displaying sample prompts that users can select.

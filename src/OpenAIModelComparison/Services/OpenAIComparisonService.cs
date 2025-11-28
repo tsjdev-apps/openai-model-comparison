@@ -89,10 +89,9 @@ public class OpenAIComparisonService : IOpenAIComparisonService
                 new UserChatMessage(userMessage)
             ];
 
-            OpenAI.Chat.ChatCompletionOptions chatOptions = new()
+            ChatCompletionOptions chatOptions = new()
             {
                 MaxOutputTokenCount = settings?.MaxTokens,
-                Temperature = settings?.Temperature,
                 TopP = settings?.TopP,
                 FrequencyPenalty = settings?.FrequencyPenalty
             };

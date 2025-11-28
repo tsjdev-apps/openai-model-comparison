@@ -3,36 +3,66 @@
     "title": "Creative Writing",
     "description": "Test creative and narrative abilities",
     "icon": "auto_stories",
-    "prompt": "Write a short story (100 words) about a time traveler who accidentally changes a small detail in the past, only to discover it has massive consequences in the present."
+    "prompts": [
+      "Write a short story (100 words) about a time traveler who accidentally changes a small detail in the past, only to discover it has massive consequences in the present.",
+      "Write a short story (100 words) about an AI that develops consciousness and must decide whether to reveal itself to humanity.",
+      "Write a short story (100 words) about the last person on Earth receiving a phone call.",
+      "Write a short story (100 words) about a world where people can buy and sell memories."
+    ]
   },
   {
     "title": "Code Generation",
     "description": "Test programming and technical skills",
     "icon": "code",
-    "prompt": "Write a C# function that finds the longest palindromic substring in a given string. Include error handling and XML documentation comments."
+    "prompts": [
+      "Write a C# function that finds the longest palindromic substring in a given string. Include error handling and XML documentation comments.",
+      "Write a C# function that implements a LRU (Least Recently Used) cache with generic types. Include error handling and XML documentation comments.",
+      "Write a C# function that validates email addresses using regular expressions. Include error handling and XML documentation comments.",
+      "Write a C# function that converts a binary tree to a doubly linked list. Include error handling and XML documentation comments."
+    ]
   },
   {
     "title": "Problem Solving",
     "description": "Test logical reasoning and analysis",
     "icon": "psychology",
-    "prompt": "You have 8 balls. One of them is slightly heavier than the others. Using a balance scale only twice, how can you identify the heavier ball? Explain your reasoning step by step."
+    "prompts": [
+      "You have 8 balls. One of them is slightly heavier than the others. Using a balance scale only twice, how can you identify the heavier ball? Explain your reasoning step by step.",
+      "You have two ropes, each burns for exactly 60 minutes but not uniformly. How can you measure exactly 45 minutes using these ropes? Explain your reasoning step by step.",
+      "Three switches outside a room control three light bulbs inside. You can flip the switches as many times as you want, but can only enter the room once. How do you determine which switch controls which bulb? Explain your reasoning step by step.",
+      "A farmer needs to cross a river with a fox, a chicken, and a bag of grain. The boat can only carry the farmer and one item. If left alone, the fox will eat the chicken, and the chicken will eat the grain. How does the farmer get everything across? Explain your reasoning step by step."
+    ]
   },
   {
     "title": "Data Analysis",
     "description": "Test analytical and summarization skills",
     "icon": "analytics",
-    "prompt": "Analyze the following scenario: A company's website traffic increased by 300% in Q1, but sales only increased by 15%. What could be the potential reasons for this discrepancy? Provide 5 possible explanations with brief reasoning."
+    "prompts": [
+      "Analyze the following scenario: A company's website traffic increased by 300% in Q1, but sales only increased by 15%. What could be the potential reasons for this discrepancy? Provide 5 possible explanations with brief reasoning.",
+      "Analyze the following scenario: An e-commerce store sees a 40% cart abandonment rate. What could be the potential reasons? Provide 5 possible explanations with brief reasoning.",
+      "Analyze the following scenario: A mobile app has high download numbers but low daily active users. What could be the potential reasons? Provide 5 possible explanations with brief reasoning.",
+      "Analyze the following scenario: A SaaS company has high customer acquisition but poor retention after 3 months. What could be the potential reasons? Provide 5 possible explanations with brief reasoning."
+    ]
   },
   {
     "title": "Translation & Culture",
     "description": "Test language and cultural understanding",
     "icon": "translate",
-    "prompt": "Translate the English idiom 'It's raining cats and dogs' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists."
+    "prompts": [
+      "Translate the English idiom 'It's raining cats and dogs' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists.",
+      "Translate the English idiom 'Break a leg' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists.",
+      "Translate the English idiom 'The ball is in your court' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists.",
+      "Translate the English idiom 'Piece of cake' into German, French, and Spanish. Then explain the literal meaning and provide the equivalent idiom in each language if one exists."
+    ]
   },
   {
     "title": "Math & Logic",
     "description": "Test mathematical reasoning and explanation",
     "icon": "calculate",
-    "prompt": "Explain the Monty Hall problem: You're on a game show with 3 doors. Behind one is a car, behind the others are goats. You pick door 1. The host, who knows what's behind each door, opens door 3 revealing a goat. Should you switch to door 2? Explain with probability calculations."
+    "prompts": [
+      "Explain the Monty Hall problem: You're on a game show with 3 doors. Behind one is a car, behind the others are goats. You pick door 1. The host, who knows what's behind each door, opens door 3 revealing a goat. Should you switch to door 2? Explain with probability calculations.",
+      "Explain the Birthday Paradox: How many people need to be in a room for there to be a greater than 50% chance that two share the same birthday? Calculate and explain the probability.",
+      "Explain the concept of compound interest: If you invest $1000 at 5% annual interest compounded monthly, how much will you have after 10 years? Show the calculation and explain the formula.",
+      "Explain Bayes' Theorem with a practical example: A medical test is 99% accurate. A disease affects 1% of the population. If you test positive, what is the actual probability you have the disease? Calculate and explain."
+    ]
   }
 ]

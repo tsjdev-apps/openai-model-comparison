@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace OpenAIModelComparison.Components;
+namespace OpenAIModelComparison.Components.Views;
 
 /// <summary>
 /// Component for managing advanced chat completion settings.
@@ -30,18 +30,6 @@ public partial class AdvancedSettingsSection : ComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<int?> MaxTokensChanged { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the sampling temperature.
-    /// </summary>
-    [Parameter]
-    public float? Temperature { get; set; }
-    
-    /// <summary>
-    /// Event callback invoked when Temperature changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<float?> TemperatureChanged { get; set; }
     
     /// <summary>
     /// Gets or sets the nucleus sampling parameter.

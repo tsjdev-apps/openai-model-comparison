@@ -40,7 +40,6 @@ public partial class Home : ComponentBase
     private List<SamplePrompt> samplePrompts = [];
 
     private int? maxTokens = null;
-    private float? temperature = 1.0f;
     private float? topP = null;
     private float? frequencyPenalty = null;
 
@@ -66,7 +65,7 @@ public partial class Home : ComponentBase
         try
         {
             availableModels = await ModelConfigurationService.LoadModelsAsync();
-            
+
             if (availableModels.Count == 0)
             {
                 NotificationService.Notify(new NotificationMessage
@@ -103,7 +102,7 @@ public partial class Home : ComponentBase
         try
         {
             samplePrompts = await SamplePromptService.LoadSamplePromptsAsync();
-            
+
             if (samplePrompts.Count == 0)
             {
                 NotificationService.Notify(new NotificationMessage
@@ -137,7 +136,7 @@ public partial class Home : ComponentBase
         {
             return;
         }
-        
+
         model.IsSelected = !model.IsSelected;
         StateHasChanged();
     }
@@ -152,7 +151,7 @@ public partial class Home : ComponentBase
         {
             return;
         }
-        
+
         StateHasChanged();
     }
 
@@ -165,7 +164,7 @@ public partial class Home : ComponentBase
         {
             return;
         }
-        
+
         showAdvancedSettings = !showAdvancedSettings;
     }
 
@@ -178,9 +177,8 @@ public partial class Home : ComponentBase
         {
             return;
         }
-        
+
         maxTokens = null;
-        temperature = 1.0f;
         topP = null;
         frequencyPenalty = null;
         StateHasChanged();
@@ -219,32 +217,31 @@ public partial class Home : ComponentBase
             ChatSettings settings = new()
             {
                 MaxTokens = maxTokens,
-                Temperature = temperature,
                 TopP = topP,
                 FrequencyPenalty = frequencyPenalty
             };
 
             List<ModelComparisonResult> results = [];
-            
+
             foreach (OpenAIModel model in SelectedModels)
             {
                 currentModelIndex++;
                 StateHasChanged();
-                
+
                 ModelComparisonResult result = await OpenAIComparisonService.CompareModelAsync(
                     apiKey,
                     userMessage,
                     model,
                     settings);
-                    
+
                 results.Add(result);
-                
+
                 if (currentModelIndex < totalModels)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
             }
-            
+
             comparisonResults = results;
 
             int successCount = comparisonResults.Count(r => r.IsSuccess);
@@ -291,17 +288,17 @@ public partial class Home : ComponentBase
     }
 
     /// <summary>
-    /// Applies a sample prompt to the message input field.
+    /// Applies a randomly selected sample prompt from the category to the message input field.
     /// </summary>
-    /// <param name="prompt">The sample prompt to apply.</param>
+    /// <param name="prompt">The sample prompt category to apply.</param>
     private void ApplySamplePrompt(SamplePrompt prompt)
     {
         if (isProcessing || isLoadingModels)
         {
             return;
         }
-        
-        userMessage = prompt.Prompt;
+
+        userMessage = prompt.GetRandomPrompt();
         StateHasChanged();
     }
 
@@ -314,11 +311,13 @@ public partial class Home : ComponentBase
         await DialogService.OpenAsync<ResponseDetailDialog>(
             "Response Details",
             new Dictionary<string, object> { { "Result", result } },
-            new DialogOptions 
-            { 
-                Width = "700px", 
-                Resizable = true, 
-                Draggable = true,
+            new DialogOptions
+            {
+                Width = "800px",
+                Height = "auto",
+                Style = "max-height: 85vh; margin: 2rem; overflow-y: auto;",
+                Resizable = false,
+                Draggable = false,
                 AutoFocusFirstElement = false
             });
     }

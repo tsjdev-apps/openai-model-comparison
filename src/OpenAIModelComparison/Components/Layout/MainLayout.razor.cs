@@ -20,9 +20,13 @@ public partial class MainLayout : LayoutComponentBase
             null,
             new DialogOptions() 
             { 
-                Width = "500px", 
+                Width = "600px",
+                Height = "auto",
+                Style = "max-height: 85vh; margin: 2rem;",
                 CloseDialogOnOverlayClick = true,
-                AutoFocusFirstElement = false
+                AutoFocusFirstElement = false,
+                Resizable = false,
+                Draggable = false
             });
     }
 
@@ -35,9 +39,13 @@ public partial class MainLayout : LayoutComponentBase
             null,
             new DialogOptions() 
             { 
-                Width = "750px", 
+                Width = "750px",
+                Height = "auto",
+                Style = "max-height: 85vh; margin: 2rem; overflow-y: auto;",
                 CloseDialogOnOverlayClick = true,
-                AutoFocusFirstElement = false
+                AutoFocusFirstElement = false,
+                Resizable = false,
+                Draggable = false
             });
     }
 }
