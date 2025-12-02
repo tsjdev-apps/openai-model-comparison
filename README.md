@@ -107,6 +107,11 @@ src/OpenAIModelComparison/
 
 ![Results View Dialog](docs/images/results-view-2.png)
 
+## ✍️ Blog Post
+If you are more interested into details, please see the following posts on [medium.com](https://medium.com/@tsjdevapps) or in my [personal blog](https://www.tsjdev-apps.de):
+
+- [Compare OpenAI Models Side-by-Side with Blazor Server](https://medium.com/medialesson/compare-openai-models-side-by-side-with-blazor-server-6b83ad8a9823)
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
