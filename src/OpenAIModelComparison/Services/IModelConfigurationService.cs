@@ -8,6 +8,11 @@ namespace OpenAIModelComparison.Services;
 public interface IModelConfigurationService
 {
     /// <summary>
+    /// Gets the version of the loaded model configuration.
+    /// </summary>
+    string? Version { get; }
+    
+    /// <summary>
     /// Loads the available OpenAI models from the configuration file.
     /// </summary>
     /// <returns>A list of available OpenAI models.</returns>
