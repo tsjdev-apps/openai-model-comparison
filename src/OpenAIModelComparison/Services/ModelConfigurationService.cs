@@ -16,6 +16,10 @@ public class ModelConfigurationService(
     HttpClient httpClient, 
     NavigationManager navigationManager) : IModelConfigurationService
 {
+    /// <summary>
+    /// Gets the version of the loaded model configuration.
+    /// </summary>
+    public string? Version { get; private set; }
 
     /// <summary>
     /// Loads the available OpenAI models from the configuration file.
@@ -28,8 +32,15 @@ public class ModelConfigurationService(
             string baseUri = navigationManager.BaseUri;
             Uri modelsUri = new(new Uri(baseUri), "data/models.json");
 
-            List<OpenAIModel>? models = await httpClient.GetFromJsonAsync<List<OpenAIModel>>(modelsUri.ToString());
-            return models ?? [];
+            ModelConfiguration? configuration = await httpClient.GetFromJsonAsync<ModelConfiguration>(modelsUri.ToString());
+            
+            if (configuration != null)
+            {
+                Version = configuration.Version;
+                return configuration.Models;
+            }
+            
+            return [];
         }
         catch (Exception ex)
         {
