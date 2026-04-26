@@ -1,6 +1,34 @@
 {
-    "version": "2025.12.12",
+    "version": "2026.26.04",
     "models": [
+        {
+            "name": "gpt-5.5",
+            "displayName": "GPT-5.5",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 5.0,
+            "outputPricePerMillionTokens": 30.0
+        },
+        {
+            "name": "gpt-5.4",
+            "displayName": "GPT-5.4",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 2.5,
+            "outputPricePerMillionTokens": 15.0
+        },
+        {
+            "name": "gpt-5.4-mini",
+            "displayName": "GPT-5.4 mini",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 0.75,
+            "outputPricePerMillionTokens": 4.50
+        },
+        {
+            "name": "gpt-5.4-nano",
+            "displayName": "GPT-5.4 nano",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 0.2,
+            "outputPricePerMillionTokens": 1.25
+        },
         {
             "name": "gpt-5.2",
             "displayName": "GPT-5.2",
