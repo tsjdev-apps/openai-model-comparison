@@ -310,7 +310,7 @@ public partial class Home : ComponentBase
     {
         await DialogService.OpenAsync<ResponseDetailDialog>(
             "Response Details",
-            new Dictionary<string, object> { { "Result", result } },
+            new Dictionary<string, object?> { { "Result", result } },
             new DialogOptions
             {
                 Width = "800px",
