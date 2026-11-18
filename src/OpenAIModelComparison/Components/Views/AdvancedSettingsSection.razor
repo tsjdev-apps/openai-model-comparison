@@ -1,6 +1,6 @@
 @*
     Component for managing advanced chat completion settings.
-    Provides collapsible section with controls for max tokens, temperature, top-p, and frequency penalty.
+    Provides a collapsible section for controlling the maximum response size.
     The entire header is clickable to expand/collapse the section.
 *@
 
@@ -46,64 +46,20 @@
             <RadzenRow Gap="1rem">
                 <!-- Max Tokens Setting -->
                 <RadzenColumn Size="12" SizeMD="6">
-                    <RadzenFormField Text="Max Tokens" Variant="Variant.Outlined" Style="width: 100%;">
+                    <RadzenFormField Text="Max Output Tokens" Variant="Variant.Outlined" Style="width: 100%;">
                         <ChildContent>
                             <RadzenNumeric @bind-Value="@MaxTokens" 
                                            TValue="int?"
                                            Placeholder="Default (model specific)"
                                            Min="1"
-                                           Max="32000"
+                                           Max="128000"
                                            ShowUpDown="false"
                                            Style="width: 100%;"
                                            Disabled="@IsDisabled" />
                         </ChildContent>
                         <Helper>
                             <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
-                                Maximum number of tokens to generate (leave empty for model default)
-                            </RadzenText>
-                        </Helper>
-                    </RadzenFormField>
-                </RadzenColumn>
-
-                <!-- Top P Setting -->
-                <RadzenColumn Size="12" SizeMD="6">
-                    <RadzenFormField Text="Top P" Variant="Variant.Outlined" Style="width: 100%;">
-                        <ChildContent>
-                            <RadzenNumeric @bind-Value="@TopP" 
-                                           TValue="float?"
-                                           Placeholder="Default"
-                                           Min="0"
-                                           Max="1"
-                                           Step="0.1"
-                                           ShowUpDown="true"
-                                           Style="width: 100%;"
-                                           Disabled="@IsDisabled" />
-                        </ChildContent>
-                        <Helper>
-                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
-                                Nucleus sampling (0-1). Alternative to temperature
-                            </RadzenText>
-                        </Helper>
-                    </RadzenFormField>
-                </RadzenColumn>
-
-                <!-- Frequency Penalty Setting -->
-                <RadzenColumn Size="12" SizeMD="6">
-                    <RadzenFormField Text="Frequency Penalty" Variant="Variant.Outlined" Style="width: 100%;">
-                        <ChildContent>
-                            <RadzenNumeric @bind-Value="@FrequencyPenalty" 
-                                           TValue="float?"
-                                           Placeholder="Default (0)"
-                                           Min="-2"
-                                           Max="2"
-                                           Step="0.1"
-                                           ShowUpDown="true"
-                                           Style="width: 100%;"
-                                           Disabled="@IsDisabled" />
-                        </ChildContent>
-                        <Helper>
-                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
-                                Penalty for token frequency (-2.0 to 2.0). Positive = less repetition
+                                Includes visible and reasoning tokens (leave empty for model default)
                             </RadzenText>
                         </Helper>
                     </RadzenFormField>

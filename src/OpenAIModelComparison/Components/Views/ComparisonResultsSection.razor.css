@@ -6,7 +6,7 @@
 
 .response-card {
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
     border: 2px solid rgba(94, 114, 228, 0.1);
     position: relative;
     overflow: hidden;
@@ -39,7 +39,6 @@
 }
 
 .response-card:hover {
-    transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(94, 114, 228, 0.15);
     border-color: rgba(94, 114, 228, 0.3);
 }
@@ -87,12 +86,11 @@
 }
 
 .rz-datatable-row {
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .rz-datatable-row:hover {
     background: rgba(94, 114, 228, 0.05);
-    transform: scale(1.01);
 }
 
 .rz-datatable-row:nth-child(even) {
@@ -163,8 +161,4 @@
         transition: none;
     }
     
-    .response-card:hover,
-    .rz-datatable-row:hover {
-        transform: none;
-    }
 }

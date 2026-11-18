@@ -40,8 +40,6 @@ public partial class Home : ComponentBase
     private List<SamplePrompt> samplePrompts = [];
 
     private int? maxTokens = null;
-    private float? topP = null;
-    private float? frequencyPenalty = null;
 
     /// <summary>
     /// Initializes the component by loading available models and sample prompts.
@@ -179,8 +177,6 @@ public partial class Home : ComponentBase
         }
 
         maxTokens = null;
-        topP = null;
-        frequencyPenalty = null;
         StateHasChanged();
     }
 
@@ -216,9 +212,7 @@ public partial class Home : ComponentBase
         {
             ChatSettings settings = new()
             {
-                MaxTokens = maxTokens,
-                TopP = topP,
-                FrequencyPenalty = frequencyPenalty
+                MaxTokens = maxTokens
             };
 
             List<ModelComparisonResult> results = [];

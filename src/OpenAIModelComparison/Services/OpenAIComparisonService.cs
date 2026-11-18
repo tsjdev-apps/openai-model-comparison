@@ -1,5 +1,4 @@
-using OpenAI;
-using OpenAI.Chat;
+using OpenAI.Responses;
 using OpenAIModelComparison.Models;
 using System.Diagnostics;
 
@@ -80,33 +79,23 @@ public class OpenAIComparisonService : IOpenAIComparisonService
         
         try
         {
-            OpenAIClient client = new(apiKey);
-            ChatClient chatClient = client.GetChatClient(model.Name);
-
-            List<ChatMessage> messages =
-            [
-                new SystemChatMessage("You are a helpful assistant."),
-                new UserChatMessage(userMessage)
-            ];
-
-            ChatCompletionOptions chatOptions = new()
+            ResponsesClient client = new(apiKey);
+            CreateResponseOptions options = new()
             {
-                MaxOutputTokenCount = settings?.MaxTokens,
-                TopP = settings?.TopP,
-                FrequencyPenalty = settings?.FrequencyPenalty
+                Model = model.Name,
+                MaxOutputTokenCount = settings?.MaxTokens
             };
+            options.InputItems.Add(ResponseItem.CreateUserMessageItem(userMessage));
 
-            ChatCompletion response = await chatClient.CompleteChatAsync(messages, chatOptions);
+            ResponseResult response = await client.CreateResponseAsync(options);
             stopwatch.Stop();
 
-            string content = response.Content[0].Text;
+            string content = response.GetOutputText();
             
             int inputTokens = response.Usage.InputTokenCount;
             int outputTokens = response.Usage.OutputTokenCount;
             
-            double inputCost = (inputTokens / 1_000_000.0) * model.InputPricePerMillionTokens;
-            double outputCost = (outputTokens / 1_000_000.0) * model.OutputPricePerMillionTokens;
-            double totalCost = inputCost + outputCost;
+            double totalCost = model.CalculateEstimatedCost(inputTokens, outputTokens);
 
             return new ModelComparisonResult
             {

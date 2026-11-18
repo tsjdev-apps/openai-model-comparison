@@ -1,22 +1,12 @@
 namespace OpenAIModelComparison.Models;
 
 /// <summary>
-/// Represents the chat completion settings for OpenAI API requests.
+/// Represents the Responses API settings for OpenAI requests.
 /// </summary>
 public class ChatSettings
 {
     /// <summary>
-    /// Gets or sets the maximum number of tokens to generate in the completion.
+    /// Gets or sets the maximum number of output and reasoning tokens to generate.
     /// </summary>
     public int? MaxTokens { get; set; }
-
-    /// <summary>
-    /// Gets or sets the nucleus sampling parameter (0-1). Alternative to temperature.
-    /// </summary>
-    public float? TopP { get; set; }
-
-    /// <summary>
-    /// Gets or sets the frequency penalty (-2.0 to 2.0). Positive values decrease likelihood of repeating tokens.
-    /// </summary>
-    public float? FrequencyPenalty { get; set; }
 }
