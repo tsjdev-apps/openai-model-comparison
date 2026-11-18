@@ -1,70 +1,29 @@
-@*
-    Component for managing advanced chat completion settings.
-    Provides a collapsible section for controlling the maximum response size.
-    The entire header is clickable to expand/collapse the section.
-*@
-
-@using OpenAIModelComparison.Models
-
-<RadzenCard Style="background-color: #f8f9fa; padding: 1rem;">
-    <RadzenStack Gap="1rem">
-        <!-- Clickable header to toggle expand/collapse -->
-        <RadzenStack Orientation="Orientation.Horizontal" 
-                     JustifyContent="JustifyContent.SpaceBetween" 
-                     AlignItems="AlignItems.Center"
-                     Style="@(IsDisabled ? "cursor: not-allowed;" : "cursor: pointer;")"
-                     @onclick="HandleHeaderClick">
-            <RadzenText TextStyle="TextStyle.Subtitle1">
-                Advanced Settings
-            </RadzenText>
-            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
-                @if (IsExpanded)
-                {
-                    <!-- Reset button to restore default values -->
-                    <RadzenButton Text="Reset" 
-                                Icon="refresh" 
-                                ButtonStyle="ButtonStyle.Light"
-                                Size="ButtonSize.Small"
-                                Click="@HandleResetClick"
-                                Disabled="@IsDisabled"
-                                @onclick:stopPropagation="true" />
-                }
-                <!-- Toggle button to show/hide settings -->
-                <RadzenButton Text="@(IsExpanded ? "Hide" : "Show")" 
-                            Icon="@(IsExpanded ? "expand_less" : "expand_more")" 
-                            ButtonStyle="ButtonStyle.Light"
-                            Size="ButtonSize.Small"
-                            Click="@OnToggle"
-                            Disabled="@IsDisabled"
-                            @onclick:stopPropagation="true" />
-            </RadzenStack>
-        </RadzenStack>
-
-        @if (IsExpanded)
-        {
-            <!-- Advanced settings input fields -->
-            <RadzenRow Gap="1rem">
-                <!-- Max Tokens Setting -->
-                <RadzenColumn Size="12" SizeMD="6">
-                    <RadzenFormField Text="Max Output Tokens" Variant="Variant.Outlined" Style="width: 100%;">
-                        <ChildContent>
-                            <RadzenNumeric @bind-Value="@MaxTokens" 
-                                           TValue="int?"
-                                           Placeholder="Default (model specific)"
-                                           Min="1"
-                                           Max="128000"
-                                           ShowUpDown="false"
-                                           Style="width: 100%;"
-                                           Disabled="@IsDisabled" />
-                        </ChildContent>
-                        <Helper>
-                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
-                                Includes visible and reasoning tokens (leave empty for model default)
-                            </RadzenText>
-                        </Helper>
-                    </RadzenFormField>
-                </RadzenColumn>
-            </RadzenRow>
-        }
-    </RadzenStack>
-</RadzenCard>
+<section class="advanced-settings">
+    <button type="button"
+            class="advanced-settings-toggle"
+            @onclick="HandleSummaryClick"
+            disabled="@IsDisabled"
+            aria-expanded="@IsExpanded.ToString().ToLowerInvariant()"
+            aria-controls="advanced-settings-body">
+        <span>Advanced settings</span>
+        <span class="advanced-summary-icon" aria-hidden="true">@(IsExpanded ? "−" : "+")</span>
+    </button>
+    @if (IsExpanded)
+    {
+        <div id="advanced-settings-body" class="advanced-settings-body">
+            <div class="settings-field">
+                <label for="max-output-tokens">Max output tokens</label>
+                <RadzenNumeric id="max-output-tokens"
+                               @bind-Value="@MaxTokens"
+                               TValue="int?"
+                               Placeholder="Model default"
+                               Min="1"
+                               Max="128000"
+                               ShowUpDown="false"
+                               Disabled="@IsDisabled" />
+                <p class="field-note">Includes visible and reasoning tokens. Leave empty to use the model default.</p>
+            </div>
+            <button type="button" class="text-button" @onclick="HandleResetClick" disabled="@IsDisabled">Reset setting</button>
+        </div>
+    }
+</section>

@@ -61,4 +61,9 @@ public partial class AdvancedSettingsSection : ComponentBase
     {
         await OnReset.InvokeAsync();
     }
+
+    private async Task HandleSummaryClick()
+    {
+        await HandleHeaderClick();
+    }
 }
