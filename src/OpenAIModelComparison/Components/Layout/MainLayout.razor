@@ -1,37 +1,36 @@
-﻿@*
-    Main layout component that defines the overall structure of the application.
-    Includes header with app title and info button, body for page content, and footer with copyright and imprint link.
-*@
-
 @inherits LayoutComponentBase
 
-<RadzenLayout>
-    <!-- Header with application title and info button -->
-    <RadzenHeader>
-        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="1rem" Class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1" Class="rz-m-0" Style="color: white;">
-                OpenAI Model Comparison
-            </RadzenText>
-            <RadzenButton Icon="info" Variant="Variant.Text" Click="@ShowInfoDialog" Style="color: white;" />
-        </RadzenStack>
-    </RadzenHeader>
-    
-    <!-- Main content area -->
-    <RadzenBody>
-        <RadzenContentContainer>
-            @Body
-        </RadzenContentContainer>
-    </RadzenBody>
-    
-    <!-- Footer with copyright and imprint link -->
-    <RadzenFooter>
-        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="2rem" Class="rz-p-3">
-            <RadzenText TextStyle="TextStyle.Body2">
-                © @DateTime.Now.Year <a href="https://www.tsjdev-apps.de" target="_blank" rel="noopener noreferrer">Thomas Sebastian Jensen</a>
-            </RadzenText>
-            <RadzenButton Text="Imprint" Variant="Variant.Text" Size="ButtonSize.Small" Click="@ShowImprintDialog" />
-        </RadzenStack>
-    </RadzenFooter>
-</RadzenLayout>
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="app-header">
+    <a href="/" class="brand" aria-label="OpenAI Model Comparison home">
+        <span class="brand-symbol" aria-hidden="true">
+            <svg viewBox="0 0 32 32" focusable="false">
+                <path d="m16 2 14 14-14 14L2 16Zm0 4L6 16l10 10 10-10Z" fill="currentColor" fill-rule="evenodd" />
+                <path d="m16 11 5 5-5 5-5-5Z" fill="currentColor" />
+            </svg>
+        </span>
+        <span>openai model<span class="brand-light"> / comparison</span></span>
+    </a>
+    <span class="header-caption">One prompt. Multiple perspectives.</span>
+    <nav class="header-actions" aria-label="Application links">
+        <button type="button" class="header-link info-button" @onclick="ShowInfoDialog" aria-label="About this app">
+            <span aria-hidden="true">ⓘ</span> Info
+        </button>
+        <a class="header-link" href="https://github.com/tsjdev-apps/openai-model-comparison" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    </nav>
+</header>
+
+<main id="main-content" class="app-main">
+    @Body
+</main>
+
+<footer class="app-footer">
+    <span>© @DateTime.Now.Year <a href="https://www.tsjdev-apps.de" target="_blank" rel="noopener noreferrer">Thomas Sebastian Jensen</a></span>
+    <div class="footer-links">
+        <span>Made with Blazor <span class="footer-dot">•</span> One idea, different answers.</span>
+        <button type="button" class="text-button imprint-button" @onclick="ShowImprintDialog">Imprint</button>
+    </div>
+</footer>
 
 <RadzenComponents />
