@@ -1,18 +1,18 @@
 # OpenAI Model Comparison
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge&logo=microsoft-azure)](https://openaimodelcomparison.tsjdev-apps.de)
-[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-11.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor](https://img.shields.io/badge/Blazor-Server-512BD4?style=for-the-badge&logo=blazor)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 
 A modern Blazor web application for comparing responses from multiple OpenAI models side-by-side. Send the same prompt to different models and analyze their responses, token usage, latency, and estimated costs in real-time.
 
 ## 🌟 Features
 
-- **Multi-Model Comparison**: Compare responses from multiple OpenAI models simultaneously (GPT-5.1, GPT-5, GPT-4.1, and their variants)
+- **Multi-Model Comparison**: Compare responses from current OpenAI text models from GPT-5.2 through GPT-6.2
 - **Real-Time Analysis**: Track token usage (input/output), response latency, and estimated costs per model
-- **Interactive UI**: Modern, responsive interface built with Blazor Server and Radzen components
+- **Interactive UI**: Modern, responsive interface built with a Blazor Web App and Radzen components
 - **Sample Prompts**: Pre-configured sample prompts for quick testing
-- **Advanced Settings**: Configure temperature, max tokens, top-p, frequency penalty, and presence penalty
+- **Advanced Settings**: Configure the maximum number of output and reasoning tokens
 - **Detailed Response View**: Expand individual responses for detailed analysis
 - **Cost Estimation**: Automatic cost calculation based on current token pricing
 
@@ -24,7 +24,7 @@ Try the application now: **[https://openaimodelcomparison.tsjdev-apps.de](https:
 
 ## 📋 Prerequisites
 
-- [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
+- [.NET 11.0 SDK](https://dotnet.microsoft.com/download/dotnet/11.0) or later
 - [OpenAI API Key](https://platform.openai.com/)
 - [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
@@ -54,6 +54,14 @@ Try the application now: **[https://openaimodelcomparison.tsjdev-apps.de](https:
 
 4. Open your browser and navigate to `https://localhost:5001` (or the URL shown in the console)
 
+### Running Tests
+
+Run the unit test suite from the repository root:
+
+```bash
+dotnet test OpenAIModelComparison.slnx
+```
+
 ### Configuration
 
 The application uses the OpenAI API. You'll need to provide your API key through the web interface when using the application.
@@ -65,7 +73,7 @@ Available models are configured in `wwwroot/data/models.json` and can be customi
 1. **Enter API Key**: Paste your OpenAI API key in the designated field
 2. **Select Models**: Choose which models you want to compare
 3. **Enter Prompt**: Type your prompt or select from sample prompts
-4. **Configure Settings** (optional): Adjust temperature, max tokens, and other parameters
+4. **Configure Settings** (optional): Adjust the maximum response size
 5. **Compare**: Click "SEND TO MODELS" to send the prompt to all selected models
 6. **Analyze Results**: Review responses, token usage, latency, and costs for each model
 
@@ -94,9 +102,9 @@ src/OpenAIModelComparison/
 
 ## 🛠️ Technologies
 
-- **Framework**: .NET 10.0, Blazor Server
+- **Framework**: .NET 11.0, Blazor Web App
 - **UI Components**: [Radzen Blazor Components](https://blazor.radzen.com/)
-- **OpenAI SDK**: [Azure.AI.OpenAI](https://www.nuget.org/packages/Azure.AI.OpenAI/)
+- **OpenAI SDK**: [OpenAI](https://www.nuget.org/packages/OpenAI/)
 - **Deployment**: Azure Web Apps
 
 ## 📸 Screenshots

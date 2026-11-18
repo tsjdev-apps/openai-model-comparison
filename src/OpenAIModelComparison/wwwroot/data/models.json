@@ -1,12 +1,96 @@
 {
-    "version": "2026.04.26",
+    "version": "2026.11.18",
     "models": [
+        {
+            "name": "gpt-6.2-astra",
+            "displayName": "GPT-6.2 Astra",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 8.0,
+            "outputPricePerMillionTokens": 40.0
+        },
+        {
+            "name": "gpt-6.2-sol",
+            "displayName": "GPT-6.2 Sol",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 2.0,
+            "outputPricePerMillionTokens": 10.0
+        },
+        {
+            "name": "gpt-6.1-terra",
+            "displayName": "GPT-6.1 Terra",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 1.0,
+            "outputPricePerMillionTokens": 5.0
+        },
+        {
+            "name": "gpt-6.1-sol",
+            "displayName": "GPT-6.1 Sol",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 2.0,
+            "outputPricePerMillionTokens": 10.0
+        },
+        {
+            "name": "gpt-6-luna",
+            "displayName": "GPT-6 Luna",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 0.1,
+            "outputPricePerMillionTokens": 0.5
+        },
+        {
+            "name": "gpt-6-astra",
+            "displayName": "GPT-6 Astra",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 10.0,
+            "outputPricePerMillionTokens": 50.0
+        },
+        {
+            "name": "gpt-6-sol",
+            "displayName": "GPT-6 Sol",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 2.0,
+            "outputPricePerMillionTokens": 10.0
+        },
+        {
+            "name": "gpt-5.6-sol",
+            "displayName": "GPT-5.6 Sol",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 4.0,
+            "outputPricePerMillionTokens": 20.0
+        },
+        {
+            "name": "gpt-5.6-terra",
+            "displayName": "GPT-5.6 Terra",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 2.0,
+            "outputPricePerMillionTokens": 12.0
+        },
+        {
+            "name": "gpt-5.6-luna",
+            "displayName": "GPT-5.6 Luna",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 0.2,
+            "outputPricePerMillionTokens": 1.2
+        },
+        {
+            "name": "gpt-5.5-pro",
+            "displayName": "GPT-5.5 Pro",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 30.0,
+            "outputPricePerMillionTokens": 180.0
+        },
         {
             "name": "gpt-5.5",
             "displayName": "GPT-5.5",
             "isSelected": false,
             "inputPricePerMillionTokens": 5.0,
             "outputPricePerMillionTokens": 30.0
+        },
+        {
+            "name": "gpt-5.4-pro",
+            "displayName": "GPT-5.4 Pro",
+            "isSelected": false,
+            "inputPricePerMillionTokens": 30.0,
+            "outputPricePerMillionTokens": 180.0
         },
         {
             "name": "gpt-5.4",
@@ -20,14 +104,14 @@
             "displayName": "GPT-5.4 mini",
             "isSelected": false,
             "inputPricePerMillionTokens": 0.75,
-            "outputPricePerMillionTokens": 4.50
+            "outputPricePerMillionTokens": 4.5
         },
         {
-            "name": "gpt-5.4-nano",
-            "displayName": "GPT-5.4 nano",
+            "name": "gpt-5.2-pro",
+            "displayName": "GPT-5.2 Pro",
             "isSelected": false,
-            "inputPricePerMillionTokens": 0.2,
-            "outputPricePerMillionTokens": 1.25
+            "inputPricePerMillionTokens": 21.0,
+            "outputPricePerMillionTokens": 168.0
         },
         {
             "name": "gpt-5.2",
@@ -35,90 +119,6 @@
             "isSelected": false,
             "inputPricePerMillionTokens": 1.75,
             "outputPricePerMillionTokens": 14.0
-        },
-        {
-            "name": "gpt-5.1",
-            "displayName": "GPT-5.1",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 1.25,
-            "outputPricePerMillionTokens": 10.0
-        },
-        {
-            "name": "gpt-5",
-            "displayName": "GPT-5",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 1.25,
-            "outputPricePerMillionTokens": 10.0
-        },
-        {
-            "name": "gpt-5-mini",
-            "displayName": "GPT-5 mini",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 0.25,
-            "outputPricePerMillionTokens": 2.0
-        },
-        {
-            "name": "gpt-5-nano",
-            "displayName": "GPT-5 nano",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 0.05,
-            "outputPricePerMillionTokens": 0.40
-        },
-        {
-            "name": "gpt-4.1",
-            "displayName": "GPT-4.1",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 2.0,
-            "outputPricePerMillionTokens": 8.0
-        },
-        {
-            "name": "gpt-4.1-mini",
-            "displayName": "GPT-4.1 mini",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 0.40,
-            "outputPricePerMillionTokens": 1.60
-        },
-        {
-            "name": "gpt-4.1-nano",
-            "displayName": "GPT-4.1 nano",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 0.10,
-            "outputPricePerMillionTokens": 0.40
-        },
-        {
-            "name": "gpt-4o",
-            "displayName": "GPT-4o",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 2.50,
-            "outputPricePerMillionTokens": 10.0
-        },
-        {
-            "name": "gpt-4o-mini",
-            "displayName": "GPT-4o mini",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 0.15,
-            "outputPricePerMillionTokens": 0.60
-        },
-        {
-            "name": "gpt-4",
-            "displayName": "GPT-4",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 30.0,
-            "outputPricePerMillionTokens": 60.0
-        },
-        {
-            "name": "gpt-4-turbo",
-            "displayName": "GPT-4 Turbo",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 10.0,
-            "outputPricePerMillionTokens": 30.0
-        },
-        {
-            "name": "gpt-3.5-turbo",
-            "displayName": "GPT-3.5 Turbo",
-            "isSelected": false,
-            "inputPricePerMillionTokens": 0.50,
-            "outputPricePerMillionTokens": 1.50
         }
     ]
 }

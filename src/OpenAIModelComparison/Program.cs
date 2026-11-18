@@ -43,9 +43,6 @@ if (!app.Environment.IsDevelopment())
 // Enable HTTPS redirection
 app.UseHttpsRedirection();
 
-// Enable antiforgery middleware for security
-app.UseAntiforgery();
-
 // Map static assets and Razor components with interactive server rendering
 app.MapStaticAssets();
 app.MapRazorComponents<App>()

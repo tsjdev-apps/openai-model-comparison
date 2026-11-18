@@ -32,30 +32,6 @@ public partial class AdvancedSettingsSection : ComponentBase
     public EventCallback<int?> MaxTokensChanged { get; set; }
     
     /// <summary>
-    /// Gets or sets the nucleus sampling parameter.
-    /// </summary>
-    [Parameter]
-    public float? TopP { get; set; }
-    
-    /// <summary>
-    /// Event callback invoked when TopP changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<float?> TopPChanged { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the frequency penalty.
-    /// </summary>
-    [Parameter]
-    public float? FrequencyPenalty { get; set; }
-    
-    /// <summary>
-    /// Event callback invoked when FrequencyPenalty changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<float?> FrequencyPenaltyChanged { get; set; }
-    
-    /// <summary>
     /// Event callback invoked when the toggle button is clicked.
     /// </summary>
     [Parameter]

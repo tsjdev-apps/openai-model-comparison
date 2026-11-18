@@ -30,12 +30,10 @@
                                        OnModelChanged="@OnModelSelectionChanged" />
             </RadzenFormField>
 
-            <!-- Advanced Settings Section - Optional parameters like top-p, frequency penalty, etc. -->
+            <!-- Advanced Settings Section - Optional Responses API output limit -->
             <AdvancedSettingsSection IsExpanded="@showAdvancedSettings"
                                      IsDisabled="@(isProcessing || isLoadingModels)"
                                      @bind-MaxTokens="@maxTokens"
-                                     @bind-TopP="@topP"
-                                     @bind-FrequencyPenalty="@frequencyPenalty"
                                      OnToggle="@ToggleAdvancedSettings"
                                      OnReset="@ResetAdvancedSettings" />
 

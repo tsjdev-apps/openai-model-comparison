@@ -7,6 +7,8 @@ namespace OpenAIModelComparison.Models;
 /// </summary>
 public class OpenAIModel
 {
+    private const double TokensPerMillion = 1_000_000.0;
+
     /// <summary>
     /// Gets or sets the internal name of the model used by the OpenAI API.
     /// </summary>
@@ -36,4 +38,16 @@ public class OpenAIModel
     /// </summary>
     [JsonPropertyName("outputPricePerMillionTokens")]
     public double OutputPricePerMillionTokens { get; set; }
+
+    /// <summary>
+    /// Calculates the estimated request cost from the configured token prices.
+    /// </summary>
+    public double CalculateEstimatedCost(int inputTokens, int outputTokens)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(inputTokens);
+        ArgumentOutOfRangeException.ThrowIfNegative(outputTokens);
+
+        return inputTokens / TokensPerMillion * InputPricePerMillionTokens
+            + outputTokens / TokensPerMillion * OutputPricePerMillionTokens;
+    }
 }
