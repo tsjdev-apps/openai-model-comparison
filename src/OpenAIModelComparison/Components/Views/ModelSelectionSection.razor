@@ -1,41 +1,32 @@
-@*
-    Component for displaying and managing OpenAI model selection.
-    Shows a grid of checkboxes for available models with loading and empty states.
-*@
-
 @using OpenAIModelComparison.Models
 
 @if (IsLoading)
 {
-    <!-- Loading state with progress indicator -->
-    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Class="rz-p-2">
-        <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Small" />
-        <RadzenText TextStyle="TextStyle.Body2">Loading models...</RadzenText>
-    </RadzenStack>
+    <div class="model-loading" role="status">
+        <span class="loader"></span>
+        <span>Loading model catalogue...</span>
+    </div>
 }
 else if (!Models.Any())
 {
-    <!-- Empty state when no models are available -->
-    <RadzenText TextStyle="TextStyle.Body2" Class="rz-p-2">
-        No models available. Please check your configuration.
-    </RadzenText>
+    <p class="empty-models">No models are available. Please check the application configuration.</p>
 }
 else
 {
-    <!-- Model selection grid with checkboxes -->
-    <div class="model-selection-grid">
+    <div class="model-selection-list" aria-label="Available OpenAI models">
         @foreach (var model in Models)
         {
-            <div class="model-checkbox-item" @onclick="() => OnModelToggled.InvokeAsync(model)" style="@(IsDisabled ? "cursor: not-allowed;" : "cursor: pointer;")">
-                <RadzenCheckBox @bind-Value="@model.IsSelected" 
-                                Name="@model.Name" 
-                                TValue="bool"
-                                Change="@(() => OnModelChanged.InvokeAsync(model))"
-                                Id="@model.Name"
-                                Disabled="@IsDisabled"
-                                @onclick:stopPropagation="true" />
-                <span class="model-label" style="@(IsDisabled ? "opacity: 0.5;" : "")">@model.DisplayName</span>
-            </div>
+            <label class="model-option @(model.IsSelected ? "selected" : "")">
+                <input type="checkbox"
+                       checked="@model.IsSelected"
+                       disabled="@IsDisabled"
+                       @onchange="() => OnModelToggled.InvokeAsync(model)" />
+                <span class="model-copy">
+                    <strong>@model.DisplayName</strong>
+                    <span>@model.Name</span>
+                </span>
+            </label>
         }
     </div>
+    <p class="field-note">Select one or more models. Every selected model receives the same prompt.</p>
 }
