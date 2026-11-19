@@ -61,4 +61,12 @@ public partial class AdvancedSettingsSection : ComponentBase
     {
         await OnReset.InvokeAsync();
     }
+
+    /// <summary>
+    /// Handles clicking on the advanced settings toggle.
+    /// </summary>
+    private async Task HandleSummaryClick()
+    {
+        await HandleHeaderClick();
+    }
 }

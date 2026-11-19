@@ -1,45 +1,19 @@
-@*
-// Component for displaying pre-configured sample prompts.
-// Users can click on a prompt card to automatically populate the message input field.
-// Designed to help users quickly test different model capabilities.
-// *@
-
 @using OpenAIModelComparison.Models
 
-<RadzenCard Style="background-color: #f0f7ff; padding: 1rem;">
-    <RadzenStack Gap="1rem">
-        <RadzenText TextStyle="TextStyle.Subtitle1">
-            Sample Prompts
-        </RadzenText>
-        <RadzenText TextStyle="TextStyle.Body2" Style="color: #666;">
-            Click on a card to use a sample prompt for comparison
-        </RadzenText>
-        
-        <!-- Grid of clickable sample prompt cards -->
-        <RadzenRow Gap="1rem">
-            @foreach (var sample in SamplePrompts)
-            {
-                <RadzenColumn Size="12" SizeMD="6" SizeLG="4">
-                    <RadzenCard 
-                        Style="@(IsDisabled ? "cursor: not-allowed; opacity: 0.6;" : "cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);")"
-                        class="sample-prompt-card"
-                        @onclick="() => OnSampleSelected.InvokeAsync(sample)">
-                        <RadzenStack Gap="0.5rem">
-                            <!-- Card header with icon and title -->
-                            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center">
-                                <RadzenIcon Icon="@sample.Icon" Style="color: #5e72e4;" />
-                                <RadzenText TextStyle="TextStyle.Subtitle2">
-                                    @sample.Title
-                                </RadzenText>
-                            </RadzenStack>
-                            <!-- Card description -->
-                            <RadzenText TextStyle="TextStyle.Caption" Style="color: #666; font-size: 0.75rem;">
-                                @sample.Description
-                            </RadzenText>
-                        </RadzenStack>
-                    </RadzenCard>
-                </RadzenColumn>
-            }
-        </RadzenRow>
-    </RadzenStack>
-</RadzenCard>
+@if (SamplePrompts.Any())
+{
+    <div class="sample-prompts" aria-label="Sample prompts">
+        @foreach (SamplePrompt sample in SamplePrompts)
+        {
+            <button type="button"
+                    class="sample-button"
+                    disabled="@IsDisabled"
+                    @onclick="() => OnSampleSelected.InvokeAsync(sample)"
+                    title="@sample.Description">
+                <span>@sample.Title</span>
+                <RadzenIcon Icon="@sample.Icon" />
+                <span aria-hidden="true">↗</span>
+            </button>
+        }
+    </div>
+}

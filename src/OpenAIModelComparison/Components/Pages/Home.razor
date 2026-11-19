@@ -1,94 +1,145 @@
-﻿@page "/"
-
+@page "/"
 @using OpenAIModelComparison.Components
-
-@* 
-    Home page component for OpenAI Model Comparison application.
-    Provides UI for selecting models, configuring settings, sending prompts, and viewing comparison results.
- *@
 
 <PageTitle>OpenAI Model Comparison</PageTitle>
 
-<RadzenStack Gap="2rem" Class="rz-p-4">
-    <!-- Main configuration card containing all input controls -->
-    <RadzenCard>
-        <RadzenStack Gap="1.5rem">
-            <!-- OpenAI API Key Input - Required for making API requests -->
-            <RadzenFormField Text="OpenAI API Key" Variant="Variant.Outlined">
-                <RadzenPassword @bind-Value="@apiKey" 
-                                Placeholder="Enter your OpenAI API key..." 
-                                Style="width: 100%;"
-                                Disabled="@(isProcessing || isLoadingModels)" />
-            </RadzenFormField>
+<section class="hero">
+    <div>
+        <div class="eyebrow"><span class="live-dot"></span> MODEL COMPARISON PLAYGROUND</div>
+        <h1>One prompt.<br /><span>Many perspectives.</span></h1>
+        <p>See how OpenAI models reason, explain and respond.<br />Compare different answers with a single request.</p>
+    </div>
+    <div class="hero-note">
+        <span class="hero-note-mark" aria-hidden="true">✳</span>
+        <span><strong>@availableModels.Count models available.</strong><br />Your question sets the direction.</span>
+    </div>
+</section>
 
-            <!-- Model Selection - Choose which OpenAI models to compare -->
-            <RadzenFormField Text="Select Models" Variant="Variant.Outlined">
-                <ModelSelectionSection Models="@availableModels"
-                                       IsLoading="@isLoadingModels"
-                                       IsDisabled="@isProcessing"
-                                       OnModelToggled="@ToggleModel"
-                                       OnModelChanged="@OnModelSelectionChanged" />
-            </RadzenFormField>
+<details class="panel credentials" open>
+    <summary>
+        <span><span class="section-icon" aria-hidden="true">⚿</span> Your API key</span>
+        <span class="key-summary">@(string.IsNullOrWhiteSpace(apiKey) ? "Not connected" : "Ready to compare")</span>
+    </summary>
+    <div class="credentials-body">
+        <div class="api-key-field">
+            <label for="openai-api-key">OpenAI API key</label>
+            <RadzenPassword id="openai-api-key"
+                            @bind-Value="@apiKey"
+                            Placeholder="sk-..."
+                            Disabled="@(isProcessing || isLoadingModels)"
+                            autocomplete="off" />
+        </div>
+        <p class="field-note">The key is sent to the application server, used for requests during this Blazor session and not persisted by the app. Use HTTPS and a restricted OpenAI key. API usage may incur charges.</p>
+    </div>
+</details>
 
-            <!-- Advanced Settings Section - Optional Responses API output limit -->
+<div class="workspace">
+    <aside class="panel model-panel" aria-labelledby="models-title">
+        <div class="section-heading">
+            <h2 id="models-title"><span class="step-number">01</span> Choose models</h2>
+            <span class="count-badge">@SelectedModels.Count selected</span>
+        </div>
+        <ModelSelectionSection Models="@availableModels"
+                               IsLoading="@isLoadingModels"
+                               IsDisabled="@isProcessing"
+                               OnModelToggled="@ToggleModel"
+                               OnModelChanged="@OnModelSelectionChanged" />
+    </aside>
+
+    <div class="workspace-main">
+        <section class="panel prompt-panel" aria-labelledby="prompt-title">
+            <div class="section-heading">
+                <h2 id="prompt-title"><span class="step-number">02</span> Your question</h2>
+                <span class="subtle">One prompt for all selected models</span>
+            </div>
+
+            <label for="user-message" class="sr-only">Message</label>
+            <RadzenTextArea id="user-message"
+                            class="prompt-input"
+                            @bind-Value="@userMessage"
+                            Placeholder="Ask a question, provide a task or compare a complex topic..."
+                            Rows="6"
+                            Disabled="@(isProcessing || isLoadingModels)" />
+            <div class="prompt-caption">
+                <span>Be specific about format, context and the desired depth.</span>
+                <span>@userMessage.Length characters</span>
+            </div>
+
+            <SamplePromptsSection SamplePrompts="@samplePrompts"
+                                  IsDisabled="@(isProcessing || isLoadingModels)"
+                                  OnSampleSelected="@ApplySamplePrompt" />
+
             <AdvancedSettingsSection IsExpanded="@showAdvancedSettings"
                                      IsDisabled="@(isProcessing || isLoadingModels)"
                                      @bind-MaxTokens="@maxTokens"
                                      OnToggle="@ToggleAdvancedSettings"
                                      OnReset="@ResetAdvancedSettings" />
 
-            <!-- Sample Prompts Section - Pre-configured prompts for testing different capabilities -->
-            <SamplePromptsSection SamplePrompts="@samplePrompts"
-                                  IsDisabled="@(isProcessing || isLoadingModels)"
-                                  OnSampleSelected="@ApplySamplePrompt" />
-
-            <!-- Message Input - The prompt/question to send to selected models -->
-            <RadzenFormField Text="Your Message" Variant="Variant.Outlined">
-                <RadzenTextArea @bind-Value="@userMessage" 
-                                Placeholder="Enter your message to send to the selected models..." 
-                                Rows="5" 
-                                Style="width: 100%;"
-                                Disabled="@(isProcessing || isLoadingModels)" />
-            </RadzenFormField>
-
-            <!-- Send Button - Triggers the model comparison process -->
-            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
-                <RadzenButton Text="Send to Models" 
-                              Icon="send" 
-                              ButtonStyle="ButtonStyle.Primary"
+            <div class="generate-row">
+                <div>
+                    <span class="selection-caption">@SelectedModels.Count @(SelectedModels.Count == 1 ? "model" : "models") selected</span>
+                    <small>Each comparison may incur API charges.</small>
+                </div>
+                <RadzenButton Text="@(SelectedModels.Count > 1 ? "Compare responses" : "Send to model")"
+                              Icon="auto_awesome"
                               Click="@SendMessage"
-                              Disabled="@(!CanSendMessage())" />
-            </RadzenStack>
-        </RadzenStack>
-    </RadzenCard>
+                              Disabled="@(!CanSendMessage())"
+                              Class="generate-button" />
+            </div>
+        </section>
 
-    <!-- Processing Indicator - Shows progress while processing models sequentially -->
-    @if (isProcessing)
-    {
-        <RadzenCard>
-            <RadzenStack Gap="1rem" AlignItems="AlignItems.Center">
-                <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
-                <RadzenText TextStyle="TextStyle.Body1">
-                    Processing model @currentModelIndex of @totalModels...
-                </RadzenText>
-                @if (totalModels > 0)
+        @if (isProcessing)
+        {
+            <section class="panel processing-panel" role="status" aria-live="polite">
+                <div class="processing-copy">
+                    <span class="processing-kicker">COMPARISON IN PROGRESS</span>
+                    <h2>
+                        <span class="thinking-indicator" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                        </span>
+                        Collecting response @currentModelIndex of @totalModels
+                    </h2>
+                    <p>Each model receives the same prompt and settings.</p>
+                </div>
+                <div class="progress-track">
+                    <span class="progress-value" style="width: @(totalModels > 0 ? Math.Round((double)currentModelIndex / totalModels * 100, 2) : 0)%"></span>
+                    <span class="progress-shimmer"></span>
+                </div>
+            </section>
+        }
+
+        <section class="comparison-section" aria-labelledby="results-title" aria-busy="@isProcessing.ToString().ToLowerInvariant()">
+            <div class="section-heading results-heading">
+                <h2 id="results-title"><span class="step-number">03</span> Side-by-side comparison</h2>
+                @if (comparisonResults.Any())
                 {
-                    double progressPercentage =
-						Math.Round((double)currentModelIndex / totalModels * 100, 2);
-                    <RadzenProgressBar Value="@progressPercentage" 
-                                       ShowValue="true" 
-                                       Style="width: 300px;" />
+                    <span class="subtle">@comparisonResults.Count responses · @comparisonResults.Count(r => r.IsSuccess) successful</span>
                 }
-            </RadzenStack>
-        </RadzenCard>
-    }
+                else
+                {
+                    <span class="subtle">Your responses will appear here</span>
+                }
+            </div>
 
-    <!-- Results Section - Displays comparison results in table and card format -->
-    @if (comparisonResults.Any() && !isProcessing)
-    {
-        <RadzenCard>
-            <ComparisonResultsSection Results="@comparisonResults"
-                                      OnResultSelected="@ShowResponseDetail" />
-        </RadzenCard>
-    }
-</RadzenStack>
+            @if (comparisonResults.Any() && !isProcessing)
+            {
+                <ComparisonResultsSection Results="@comparisonResults"
+                                          OnResultSelected="@ShowResponseDetail" />
+            }
+            else if (!isProcessing)
+            {
+                <div class="empty-state">
+                    <div class="empty-art" aria-hidden="true">
+                        <div class="empty-frame frame-back"><span>◒</span></div>
+                        <div class="empty-frame frame-front"><span>✳</span></div>
+                        <span class="art-spark">+</span>
+                    </div>
+                    <span class="eyebrow">ROOM FOR YOUR QUESTION</span>
+                    <h3>Same prompt.<br />Different answers.</h3>
+                    <p>Choose your models, describe your task<br />and discover the differences side by side.</p>
+                    <div class="empty-steps"><span>01 Choose models</span><span>02 Ask your question</span><span>03 Compare responses</span></div>
+                </div>
+            }
+        </section>
+    </div>
+</div>

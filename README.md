@@ -2,7 +2,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge&logo=microsoft-azure)](https://openaimodelcomparison.tsjdev-apps.de)
 [![.NET](https://img.shields.io/badge/.NET-11.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
-[![Blazor](https://img.shields.io/badge/Blazor-Server-512BD4?style=for-the-badge&logo=blazor)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
+[![Blazor](https://img.shields.io/badge/Blazor-Web%20App-512BD4?style=for-the-badge&logo=blazor)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 
 A modern Blazor web application for comparing responses from multiple OpenAI models side-by-side. Send the same prompt to different models and analyze their responses, token usage, latency, and estimated costs in real-time.
 
@@ -10,11 +10,14 @@ A modern Blazor web application for comparing responses from multiple OpenAI mod
 
 - **Multi-Model Comparison**: Compare responses from current OpenAI text models from GPT-5.2 through GPT-6.2
 - **Real-Time Analysis**: Track token usage (input/output), response latency, and estimated costs per model
-- **Interactive UI**: Modern, responsive interface built with a Blazor Web App and Radzen components
+- **Interactive UI**: Modern, responsive three-step interface built with a Blazor Web App and Radzen components
 - **Sample Prompts**: Pre-configured sample prompts for quick testing
 - **Advanced Settings**: Configure the maximum number of output and reasoning tokens
+- **Animated Progress**: Live model count, progress bar, and activity animation while responses are collected
+- **Comparison Overview**: Summary cards for success rate, total tokens, estimated cost, and average duration
 - **Detailed Response View**: Expand individual responses for detailed analysis
 - **Cost Estimation**: Automatic cost calculation based on current token pricing
+- **Session-Only API Key**: The OpenAI API key is transmitted to the application server for the active Blazor session and is not persisted by the application
 
 ## 🌐 Live Demo
 
@@ -52,7 +55,7 @@ Try the application now: **[https://openaimodelcomparison.tsjdev-apps.de](https:
    dotnet run
    ```
 
-4. Open your browser and navigate to `https://localhost:5001` (or the URL shown in the console)
+4. Open the URL shown in the console
 
 ### Running Tests
 
@@ -68,14 +71,27 @@ The application uses the OpenAI API. You'll need to provide your API key through
 
 Available models are configured in `wwwroot/data/models.json` and can be customized with pricing information.
 
+### API Key Security
+
+This application uses Blazor Interactive Server. The API key does **not** remain exclusively in the browser:
+
+1. The browser sends the key to the application server through the Blazor/SignalR connection.
+2. The server keeps the key in the active circuit's memory while the session is running.
+3. The server adds the key to OpenAI API requests.
+
+In production, HTTPS encrypts the connection between browser and server and between server and OpenAI. A passive network observer cannot normally read the key. However, the application server, a compromised server, trusted TLS inspection, or a compromised browser/device can access it. The application does not intentionally log or persist the key, but it must exist in memory to process requests.
+
+Use only HTTPS deployments and a restricted OpenAI API key with an appropriate spending limit. Avoid reusing a highly privileged production key. If handling secrets that must never be available to the application server, this UI would need a different browser-based or backend-owned credential architecture.
+
 ## 🎯 Usage
 
 1. **Enter API Key**: Paste your OpenAI API key in the designated field
 2. **Select Models**: Choose which models you want to compare
 3. **Enter Prompt**: Type your prompt or select from sample prompts
 4. **Configure Settings** (optional): Adjust the maximum response size
-5. **Compare**: Click "SEND TO MODELS" to send the prompt to all selected models
-6. **Analyze Results**: Review responses, token usage, latency, and costs for each model
+5. **Compare**: Click "SEND TO MODEL" or "COMPARE RESPONSES"
+6. **Track Progress**: Follow the animated progress area while each model responds
+7. **Analyze Results**: Review the comparison overview, responses, token usage, latency, and costs for each model
 
 ## 🏗️ Project Structure
 
@@ -84,7 +100,8 @@ src/OpenAIModelComparison/
 ├── Components/
 │   ├── Dialogs/         # Dialog components (Info, Imprint, Response Details)
 │   ├── Layout/          # Layout components (MainLayout, ReconnectModal)
-│   └── Pages/           # Page components (Home)
+│   ├── Pages/           # Page components (Home, Error)
+│   └── Views/           # Model selection, prompts, settings, and results
 ├── Models/              # Data models (OpenAIModel, ChatSettings, etc.)
 ├── Services/            # Business logic services
 │   ├── IOpenAIComparisonService.cs
@@ -94,6 +111,9 @@ src/OpenAIModelComparison/
 │   ├── ISamplePromptService.cs
 │   └── SamplePromptService.cs
 ├── wwwroot/
+│   ├── app.css          # Shared responsive application styling
+│   ├── dialogs.css      # Dialog-specific styling
+│   ├── favicon.svg      # Application favicon
 │   └── data/            # JSON configuration files
 │       ├── models.json
 │       └── sampleprompts.json
@@ -109,6 +129,8 @@ src/OpenAIModelComparison/
 
 ## 📸 Screenshots
 
+The screenshots below illustrate the comparison workflow; the interface continues to evolve with the current UI design.
+
 ![Main Interface](docs/images/main-interface.png)
 
 ![Results View](docs/images/results-view-1.png)
@@ -116,7 +138,8 @@ src/OpenAIModelComparison/
 ![Results View Dialog](docs/images/results-view-2.png)
 
 ## ✍️ Blog Post
-If you are more interested into details, please see the following posts on [medium.com](https://medium.com/@tsjdevapps) or in my [personal blog](https://www.tsjdev-apps.de):
+
+For more details, see the post on [Medium](https://medium.com/@tsjdevapps) or my [personal blog](https://www.tsjdev-apps.de):
 
 - [Compare OpenAI Models Side-by-Side with Blazor Server](https://medium.com/medialesson/compare-openai-models-side-by-side-with-blazor-server-6b83ad8a9823)
 
