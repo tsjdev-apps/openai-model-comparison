@@ -9,7 +9,7 @@
     </div>
 
     <div class="response-cards-grid">
-        @foreach (var result in Results)
+        @foreach (ModelComparisonResult result in Results)
         {
             <article class="response-card @(result.IsSuccess ? "" : "failed")">
                 <div class="result-heading">

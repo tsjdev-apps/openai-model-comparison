@@ -14,7 +14,7 @@ else if (!Models.Any())
 else
 {
     <div class="model-selection-list" aria-label="Available OpenAI models">
-        @foreach (var model in Models)
+        @foreach (OpenAIModel model in Models)
         {
             <label class="model-option @(model.IsSelected ? "selected" : "")">
                 <input type="checkbox"

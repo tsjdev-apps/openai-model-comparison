@@ -3,7 +3,7 @@
 @if (SamplePrompts.Any())
 {
     <div class="sample-prompts" aria-label="Sample prompts">
-        @foreach (var sample in SamplePrompts)
+        @foreach (SamplePrompt sample in SamplePrompts)
         {
             <button type="button"
                     class="sample-button"
