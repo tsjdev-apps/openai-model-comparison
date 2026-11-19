@@ -2,8 +2,14 @@ using OpenAIModelComparison.Models;
 
 namespace OpenAIModelComparison.UnitTests.Models;
 
+/// <summary>
+/// Tests the cost calculation behavior of <see cref="OpenAIModel"/>.
+/// </summary>
 public class OpenAIModelTests
 {
+    /// <summary>
+    /// Verifies that configured input and output prices are applied to token usage.
+    /// </summary>
     [Fact]
     public void CalculateEstimatedCost_UsesConfiguredPrices()
     {
@@ -14,6 +20,12 @@ public class OpenAIModelTests
         Assert.Equal(6.25, cost, precision: 10);
     }
 
+    /// <summary>
+    /// Verifies that negative token counts are rejected.
+    /// </summary>
+    /// <param name="inputTokens">The input token count to test.</param>
+    /// <param name="outputTokens">The output token count to test.</param>
+    /// <param name="parameterName">The expected invalid parameter name.</param>
     [Theory]
     [InlineData(-1, 0, "inputTokens")]
     [InlineData(0, -1, "outputTokens")]
@@ -30,6 +42,9 @@ public class OpenAIModelTests
         Assert.Equal(parameterName, exception.ParamName);
     }
 
+    /// <summary>
+    /// Verifies that a request without token usage has no estimated cost.
+    /// </summary>
     [Fact]
     public void CalculateEstimatedCost_WithNoUsage_ReturnsZero()
     {
@@ -40,6 +55,12 @@ public class OpenAIModelTests
         Assert.Equal(0, cost);
     }
 
+    /// <summary>
+    /// Creates an OpenAI model configured with the supplied token prices.
+    /// </summary>
+    /// <param name="inputPrice">The price per million input tokens.</param>
+    /// <param name="outputPrice">The price per million output tokens.</param>
+    /// <returns>The configured model.</returns>
     private static OpenAIModel CreateModel(double inputPrice = 0, double outputPrice = 0) =>
         new()
         {
