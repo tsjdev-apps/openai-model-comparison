@@ -91,13 +91,19 @@
         @if (isProcessing)
         {
             <section class="panel processing-panel" role="status" aria-live="polite">
-                <div>
+                <div class="processing-copy">
                     <span class="processing-kicker">COMPARISON IN PROGRESS</span>
-                    <h2>Collecting response @currentModelIndex of @totalModels</h2>
+                    <h2>
+                        <span class="thinking-indicator" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                        </span>
+                        Collecting response @currentModelIndex of @totalModels
+                    </h2>
                     <p>Each model receives the same prompt and settings.</p>
                 </div>
                 <div class="progress-track">
-                    <span style="width: @(totalModels > 0 ? Math.Round((double)currentModelIndex / totalModels * 100, 2) : 0)%"></span>
+                    <span class="progress-value" style="width: @(totalModels > 0 ? Math.Round((double)currentModelIndex / totalModels * 100, 2) : 0)%"></span>
+                    <span class="progress-shimmer"></span>
                 </div>
             </section>
         }
